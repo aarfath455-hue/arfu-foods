@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, MessageCircle, Sparkles, UtensilsCrossed } from 'lucide-react';
+import { ArrowDown, MessageCircle, Sparkles, UtensilsCrossed, FileText } from 'lucide-react';
 import { businessInfo } from '../data/business';
 
 export default function Hero({ onOpenContact }) {
@@ -68,6 +68,18 @@ export default function Hero({ onOpenContact }) {
                 <span>Order on WhatsApp</span>
               </button>
 
+            </div>
+
+            {/* Quick Menu Card Poster Link */}
+            <div className="mt-3.5 text-xs text-cocoa-700/80 dark:text-cream-300/80 flex items-center gap-1.5">
+              <span>Looking for the printed menu?</span>
+              <a
+                href="#menu-card"
+                className="text-gold-700 dark:text-gold font-bold hover:underline inline-flex items-center gap-1"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>View Menu Card Poster →</span>
+              </a>
             </div>
 
             {/* Highlights Strip */}

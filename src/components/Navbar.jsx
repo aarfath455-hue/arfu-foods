@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu as MenuIcon, X, Phone, MessageCircle, Sun, Moon } from 'lucide-react';
+import { Menu as MenuIcon, X, Phone, MessageCircle, Sun, Moon, FileText } from 'lucide-react';
 import { businessInfo } from '../data/business';
 import { useTheme } from '../context/ThemeContext';
 
@@ -17,6 +17,8 @@ export default function Navbar({ onOpenContact }) {
   }, []);
 
   const navLinks = [
+    { label: 'Menu Card', href: '#menu-card', icon: FileText, isHighlighted: true },
+    { label: 'Food Menu', href: '#menu' },
     { label: 'Breakfast', href: '#breakfast' },
     { label: 'Lunch', href: '#lunch' },
     { label: 'Dinner', href: '#dinner' },
@@ -33,7 +35,7 @@ export default function Navbar({ onOpenContact }) {
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
           ? 'bg-cream-100/95 dark:bg-charcoal-950/95 backdrop-blur-md py-2.5 sm:py-3 shadow-card-light dark:shadow-card-dark border-b border-cocoa-800/10 dark:border-white/10'
-          : 'bg-cream-100/80 dark:bg-charcoal-950/80 backdrop-blur-sm py-3 sm:py-4 border-b border-transparent'
+          : 'bg-cream-100/85 dark:bg-charcoal-950/85 backdrop-blur-sm py-3 sm:py-4 border-b border-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,21 +69,44 @@ export default function Navbar({ onOpenContact }) {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7" aria-label="Main Navigation">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-xs font-semibold tracking-wider uppercase text-cocoa-800/80 hover:text-cocoa-900 dark:text-cream-200/80 dark:hover:text-gold transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gold after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left"
-              >
-                {link.label}
-              </a>
-            ))}
+          <nav className="hidden lg:flex items-center gap-6" aria-label="Main Navigation">
+            {/* Highlighted Menu Card Link */}
+            <a
+              href="#menu-card"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold/15 dark:bg-gold/20 text-gold-700 dark:text-gold border border-gold/40 text-xs font-bold uppercase tracking-wider hover:bg-gold hover:text-charcoal-950 dark:hover:text-charcoal-950 transition-all shadow-sm active:scale-95"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Menu Card</span>
+            </a>
+
+            {/* Other standard nav links */}
+            {navLinks
+              .filter((l) => !l.isHighlighted)
+              .map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-xs font-semibold tracking-wider uppercase text-cocoa-800/80 hover:text-cocoa-900 dark:text-cream-200/80 dark:hover:text-gold transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gold after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left"
+                >
+                  {link.label}
+                </a>
+              ))}
           </nav>
 
-          {/* Right Controls: Theme Toggle + Phone/WhatsApp CTAs + Mobile Menu Toggle */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Right Controls: Menu Card (Mobile) + Theme Toggle + Phone/WhatsApp CTAs + Drawer Toggle */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             
+            {/* Mobile Quick "Menu Card" Access Button */}
+            <a
+              href="#menu-card"
+              className="inline-flex lg:hidden items-center gap-1 px-2.5 py-1.5 rounded-full bg-gold/15 dark:bg-gold/20 border border-gold/40 text-gold-700 dark:text-gold text-xs font-bold uppercase tracking-wider min-h-[44px] min-w-[44px] justify-center transition-all hover:bg-gold hover:text-charcoal-950 active:scale-95"
+              aria-label="View Menu Card"
+              title="View Official Menu Card"
+            >
+              <FileText className="w-4 h-4" />
+              <span className="hidden xs:inline text-[10px]">Card</span>
+            </a>
+
             {/* Theme Toggle Button (Light / Dark) */}
             <button
               onClick={toggleTheme}
@@ -133,17 +158,33 @@ export default function Navbar({ onOpenContact }) {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-cream-50 dark:bg-charcoal-900 border-b border-cocoa-800/10 dark:border-white/10 px-5 py-4 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col gap-2" aria-label="Mobile Navigation">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={handleNavClick}
-                className="py-2.5 px-3 rounded-xl text-sm font-semibold tracking-wide uppercase text-cocoa-900 dark:text-cream-100 hover:bg-cream-200 dark:hover:bg-charcoal-800 transition-colors flex items-center justify-between"
-              >
-                <span>{link.label}</span>
-                <span className="text-gold text-xs">→</span>
-              </a>
-            ))}
+            {/* Prominent Menu Card Link */}
+            <a
+              href="#menu-card"
+              onClick={handleNavClick}
+              className="py-3 px-3.5 rounded-2xl bg-gold/15 dark:bg-gold/20 border border-gold/40 text-gold-800 dark:text-gold text-sm font-bold uppercase tracking-wider flex items-center justify-between transition-colors shadow-sm"
+            >
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-gold" />
+                <span>Official Menu Card</span>
+              </div>
+              <span className="text-xs bg-gold text-charcoal-950 px-2 py-0.5 rounded-full font-bold">POSTER</span>
+            </a>
+
+            {/* Standard Links */}
+            {navLinks
+              .filter((l) => !l.isHighlighted)
+              .map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={handleNavClick}
+                  className="py-2.5 px-3 rounded-xl text-sm font-semibold tracking-wide uppercase text-cocoa-900 dark:text-cream-100 hover:bg-cream-200 dark:hover:bg-charcoal-800 transition-colors flex items-center justify-between"
+                >
+                  <span>{link.label}</span>
+                  <span className="text-gold text-xs">→</span>
+                </a>
+              ))}
             
             <div className="pt-3 mt-2 border-t border-cocoa-800/10 dark:border-white/10 flex items-center justify-between gap-3">
               <button

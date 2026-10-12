@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import MenuCardPoster from './components/MenuCardPoster';
 import MenuSection from './components/MenuSection';
 import HowToOrder from './components/HowToOrder';
 import WhyUs from './components/WhyUs';
@@ -18,6 +19,27 @@ export default function App() {
 
   const [previewItem, setPreviewItem] = useState(null);
 
+  // Handle direct navigation to #menu-card or /menu-card
+  useEffect(() => {
+    const handleHashOrPath = () => {
+      if (
+        window.location.hash === '#menu-card' ||
+        window.location.pathname === '/menu-card'
+      ) {
+        setTimeout(() => {
+          const el = document.getElementById('menu-card');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    };
+
+    handleHashOrPath();
+    window.addEventListener('hashchange', handleHashOrPath);
+    return () => window.removeEventListener('hashchange', handleHashOrPath);
+  }, []);
+
   const handleOpenContact = (mode = 'call') => {
     setContactModal({ isOpen: true, mode });
   };
@@ -28,7 +50,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-cream-100 dark:bg-charcoal-900 text-cocoa-900 dark:text-cream-50 flex flex-col font-sans selection:bg-gold selection:text-charcoal-950 overflow-x-hidden transition-colors duration-200">
-      {/* Header / Navbar with Light/Dark Mode Toggle & Brand */}
+      {/* Header / Navbar with Light/Dark Mode Toggle & Menu Card Link */}
       <Navbar onOpenContact={handleOpenContact} />
 
       {/* Main Experience */}
@@ -36,16 +58,19 @@ export default function App() {
         {/* 1. Master Redesign Hero */}
         <Hero onOpenContact={handleOpenContact} />
 
-        {/* 2. Structured Food Menu (Breakfast, Lunch, Dinner with Category Tabs & Search) */}
+        {/* 2. Official Menu Card Poster (Zoom Lightbox, Download, Share, Timings) */}
+        <MenuCardPoster onOpenContact={handleOpenContact} />
+
+        {/* 3. Structured Food Menu (Breakfast, Lunch, Dinner with Individual Dish Cards & Search) */}
         <MenuSection onOpenPreview={(item) => setPreviewItem(item)} />
 
-        {/* 3. 3-Step Simple Order Guide */}
+        {/* 4. 3-Step Simple Order Guide */}
         <HowToOrder />
 
-        {/* 4. Why Choose ARFU Homemade Foods */}
+        {/* 5. Why Choose ARFU Homemade Foods */}
         <WhyUs />
 
-        {/* 5. Contact Lines Section (Dual Numbers, Zero Address) */}
+        {/* 6. Contact Lines Section (Dual Numbers, Zero Address) */}
         <ContactSection onOpenContact={handleOpenContact} />
       </main>
 

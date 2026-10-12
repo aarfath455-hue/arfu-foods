@@ -58,29 +58,34 @@ export const businessInfo = {
     {
       step: "01",
       title: "Browse the Menu",
-      desc: "Choose from our breakfast, lunch, or dinner favourites.",
+      desc: "Choose from our breakfast, lunch, or dinner favourites, or check the full printed Menu Card.",
     },
     {
       step: "02",
       title: "Tap WhatsApp to Order",
-      desc: "Send your prefilled dish details directly to our kitchen.",
+      desc: "Send your prefilled dish details directly to our kitchen on either active line.",
     },
     {
       step: "03",
       title: "Confirm & Enjoy",
-      desc: "We confirm preparation and availability for your order.",
+      desc: "We confirm preparation and fresh delivery for your cottage or stay in Ooty.",
     },
   ],
 };
 
 /**
  * Builds pre-filled WhatsApp ordering link for a specific food item
- * Matches: "Hello ARFU HOMEMADE FOODS, I would like to enquire about [Item] ([Quantity]) priced at ₹[Price]. Please confirm availability."
+ * Matches requirements:
+ * - Business name
+ * - Food item
+ * - Serving quantity
+ * - Displayed price
+ * - Request to confirm availability
  */
 export function getItemWhatsAppUrl(item, whatsappNumber = businessInfo.phone1.number) {
   const quantityInfo = item.quantity ? ` (${item.quantity})` : '';
   const formattedPrice = Number(item.price).toLocaleString('en-IN');
-  const message = `Hello ARFU HOMEMADE FOODS, I would like to enquire about ${item.name}${quantityInfo} priced at ₹${formattedPrice}. Please confirm availability.`;
+  const message = `Hello ARFU HOMEMADE FOODS, I would like to order ${item.name}${quantityInfo} priced at ₹${formattedPrice}. Please confirm availability for my stay in Ooty. Thank you!`;
 
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
@@ -90,6 +95,15 @@ export function getItemWhatsAppUrl(item, whatsappNumber = businessInfo.phone1.nu
  */
 export function getGeneralWhatsAppUrl(whatsappNumber = businessInfo.phone1.number) {
   const message = `Hello ARFU HOMEMADE FOODS, I would like to enquire about homemade food for my stay in Ooty. Please share today's menu availability. Thank you!`;
+
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+/**
+ * WhatsApp order link from the official Menu Card poster
+ */
+export function getPosterWhatsAppUrl(whatsappNumber = businessInfo.phone1.number) {
+  const message = `Hello ARFU HOMEMADE FOODS, I am viewing your official Menu Card poster and would like to place an order for my stay in Ooty. Please confirm availability and timings. Thank you!`;
 
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }

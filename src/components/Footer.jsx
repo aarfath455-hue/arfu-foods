@@ -59,6 +59,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="#menu-card" className="hover:text-gold-700 dark:hover:text-gold transition-colors font-bold text-gold-700 dark:text-gold">
+                  Menu Card (Poster)
+                </a>
+              </li>
+              <li>
                 <a href="#breakfast" className="hover:text-gold-700 dark:hover:text-gold transition-colors">
                   Breakfast (9 Dishes)
                 </a>

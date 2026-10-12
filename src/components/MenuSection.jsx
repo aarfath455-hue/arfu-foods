@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Search, UtensilsCrossed, Sparkles } from 'lucide-react';
-import { allMenuItems } from '../data/menu';
+import { Search, UtensilsCrossed, FileText, Clock } from 'lucide-react';
+import { allMenuItems, MEAL_TIMINGS } from '../data/menu';
 import CategoryTabs from './CategoryTabs';
 import MenuCard from './MenuCard';
 
@@ -52,14 +52,28 @@ export default function MenuSection({ onOpenPreview }) {
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
         
+        {/* Quick Menu Card Poster Promotion Banner */}
+        <div className="max-w-xl mx-auto mb-6 p-3 rounded-2xl bg-gold/10 dark:bg-gold/15 border border-gold/30 flex items-center justify-between gap-3 text-xs shadow-sm">
+          <div className="flex items-center gap-2 text-cocoa-900 dark:text-cream-100 font-medium">
+            <FileText className="w-4 h-4 text-gold-600 dark:text-gold flex-shrink-0" />
+            <span>Looking for the official printed poster?</span>
+          </div>
+          <a
+            href="#menu-card"
+            className="flex-shrink-0 font-bold uppercase tracking-wider text-gold-700 dark:text-gold hover:underline whitespace-nowrap"
+          >
+            Menu Card →
+          </a>
+        </div>
+
         {/* Quick Search Bar */}
         <div className="max-w-md mx-auto mb-10 sm:mb-12 relative">
           <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-cocoa-700/50 dark:text-cream-300/50" />
           <input
             type="text"
-            placeholder="Search idly, biryani, chicken fry, dosa..."
+            placeholder="Search idly, biriyani, chicken fry, dosa..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-11 pr-12 py-3 rounded-full bg-white dark:bg-charcoal-850 border border-cocoa-800/15 dark:border-white/15 text-sm text-cocoa-900 dark:text-cream-50 placeholder-cocoa-700/50 dark:placeholder-cream-300/50 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/30 shadow-card-light dark:shadow-card-dark transition-colors min-h-[44px]"
@@ -126,7 +140,7 @@ export default function MenuSection({ onOpenPreview }) {
           /* VIEW 2: SINGLE FILTERED CATEGORY                             */
           /* ============================================================ */
           <div>
-            <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex items-center justify-between">
+            <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
               <div>
                 <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
                   Menu Category
@@ -134,6 +148,12 @@ export default function MenuSection({ onOpenPreview }) {
                 <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
                   {activeCategory} ({filteredCategoryItems.length})
                 </h2>
+                {activeCategory in MEAL_TIMINGS && (
+                  <div className="inline-flex items-center gap-1.5 text-xs text-gold-700 dark:text-gold font-mono font-medium mt-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Daily Timing: {MEAL_TIMINGS[activeCategory]}</span>
+                  </div>
+                )}
               </div>
               <button
                 onClick={() => setActiveCategory('all')}
@@ -161,16 +181,21 @@ export default function MenuSection({ onOpenPreview }) {
             
             {/* 1. BREAKFAST SECTION */}
             <section id="breakfast" className="scroll-mt-32">
-              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
-                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
-                    01 — Morning Specialties
-                  </span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold">
+                      01 — Morning Specialties
+                    </span>
+                    <span className="text-[11px] font-mono text-gold-700 dark:text-gold bg-gold/15 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> {MEAL_TIMINGS.breakfast}
+                    </span>
+                  </div>
                   <h2 className="font-serif font-black text-2xl sm:text-4xl text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
                     Breakfast
                   </h2>
                   <p className="text-xs sm:text-sm text-cocoa-700/80 dark:text-cream-200/80 mt-1 italic font-serif">
-                    "Start your morning with freshly steamed homestyle favourites."
+                    "Start your morning in Ooty with freshly steamed homestyle favourites."
                   </p>
                 </div>
                 <span className="text-xs text-cocoa-800 dark:text-cream-200 bg-cream-200/80 dark:bg-charcoal-800 px-3 py-1 rounded-full border border-cocoa-800/10 dark:border-white/10 self-start sm:self-auto font-mono">
@@ -191,16 +216,21 @@ export default function MenuSection({ onOpenPreview }) {
 
             {/* 2. LUNCH SECTION */}
             <section id="lunch" className="scroll-mt-32">
-              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
-                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
-                    02 — Afternoon Feast
-                  </span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold">
+                      02 — Afternoon Feast
+                    </span>
+                    <span className="text-[11px] font-mono text-gold-700 dark:text-gold bg-gold/15 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> {MEAL_TIMINGS.lunch}
+                    </span>
+                  </div>
                   <h2 className="font-serif font-black text-2xl sm:text-4xl text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
                     Lunch
                   </h2>
                   <p className="text-xs sm:text-sm text-cocoa-700/80 dark:text-cream-200/80 mt-1 italic font-serif">
-                    "Royal slow-dum biryanis, wholesome meals, and rich simmering gravies."
+                    "Royal slow-dum biriyanis, wholesome meals, and rich simmering gravies."
                   </p>
                 </div>
                 <span className="text-xs text-cocoa-800 dark:text-cream-200 bg-cream-200/80 dark:bg-charcoal-800 px-3 py-1 rounded-full border border-cocoa-800/10 dark:border-white/10 self-start sm:self-auto font-mono">
@@ -221,11 +251,16 @@ export default function MenuSection({ onOpenPreview }) {
 
             {/* 3. DINNER SECTION */}
             <section id="dinner" className="scroll-mt-32">
-              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                 <div>
-                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
-                    03 — Evening Delights
-                  </span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold">
+                      03 — Evening Delights
+                    </span>
+                    <span className="text-[11px] font-mono text-gold-700 dark:text-gold bg-gold/15 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> {MEAL_TIMINGS.dinner}
+                    </span>
+                  </div>
                   <h2 className="font-serif font-black text-2xl sm:text-4xl text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
                     Dinner
                   </h2>

@@ -1,42 +1,50 @@
 /**
  * ARFU HOMEMADE FOODS — OFFICIAL MENU DATA
- * Preserves exact meal categories, serving sizes, and prices as specified.
+ * Derived directly from the official ARFU HOMEMADE FOODS printed menu poster.
  * 
- * Categories:
- * 1. BREAKFAST (9 items)
- * 2. LUNCH (8 items)
- * 3. DINNER (11 items)
+ * Meal Categories & Timings:
+ * 1. BREAKFAST — 6:00 AM – 11:00 AM (9 items)
+ * 2. LUNCH     — 12:00 PM – 3:00 PM (8 items)
+ * 3. DINNER    — 6:00 PM – 10:00 PM (11 items)
  * 
- * Every item maps to its genuine food photograph.
+ * Total: 28 items, with 1:1 genuine food photographs.
  */
 
+export const MENU_CARD_IMAGE = '/images/arfu-menu-card.jpeg';
+
+export const MEAL_TIMINGS = {
+  breakfast: '6:00 AM – 11:00 AM',
+  lunch: '12:00 PM – 3:00 PM',
+  dinner: '6:00 PM – 10:00 PM',
+};
+
 export const MENU_CATEGORIES = [
-  { id: 'all', label: 'All Dishes', count: 28 },
-  { id: 'breakfast', label: 'Breakfast', count: 9 },
-  { id: 'lunch', label: 'Lunch', count: 8 },
-  { id: 'dinner', label: 'Dinner', count: 11 },
+  { id: 'all', label: 'All Dishes', count: 28, timing: 'All Day' },
+  { id: 'breakfast', label: 'Breakfast', count: 9, timing: '6:00 AM – 11:00 AM' },
+  { id: 'lunch', label: 'Lunch', count: 8, timing: '12:00 PM – 3:00 PM' },
+  { id: 'dinner', label: 'Dinner', count: 11, timing: '6:00 PM – 10:00 PM' },
 ];
 
 export const allMenuItems = [
   // ==========================================
-  // 1. BREAKFAST (9 ITEMS)
+  // 1. BREAKFAST (6:00 AM – 11:00 AM) — 9 ITEMS
   // ==========================================
   {
     id: 'bf-1',
     name: 'Idly',
-    quantity: '2 Nos',
+    quantity: '2 No',
     price: 30,
     isVeg: true,
     category: 'breakfast',
-    description: 'Freshly steamed, soft and fluffy South Indian rice cakes served with homemade coconut chutney and sambar.',
+    description: 'Freshly steamed, soft and fluffy South Indian rice cakes served hot with homemade coconut chutney and sambar.',
     image: '/assets/food/idly.jpg',
-    alt: 'Fresh steamed South Indian idly with coconut chutney and sambar',
+    alt: 'Fresh steamed South Indian idly with chutney and sambar',
     isSignature: false,
   },
   {
     id: 'bf-2',
     name: 'Poori',
-    quantity: '2 Nos',
+    quantity: '2 No',
     price: 44,
     isVeg: true,
     category: 'breakfast',
@@ -48,7 +56,7 @@ export const allMenuItems = [
   {
     id: 'bf-3',
     name: 'Chapathi',
-    quantity: '2 Nos',
+    quantity: '2 No',
     price: 44,
     isVeg: true,
     category: 'breakfast',
@@ -96,7 +104,7 @@ export const allMenuItems = [
   {
     id: 'bf-7',
     name: 'Pongal',
-    quantity: '1 Plate',
+    quantity: '',
     price: 75,
     isVeg: true,
     category: 'breakfast',
@@ -108,7 +116,7 @@ export const allMenuItems = [
   {
     id: 'bf-8',
     name: 'Rava Upma',
-    quantity: '1 Plate',
+    quantity: '',
     price: 75,
     isVeg: true,
     category: 'breakfast',
@@ -120,7 +128,7 @@ export const allMenuItems = [
   {
     id: 'bf-9',
     name: 'Porata',
-    quantity: '1 No',
+    quantity: '',
     price: 25,
     isVeg: true,
     category: 'breakfast',
@@ -131,30 +139,30 @@ export const allMenuItems = [
   },
 
   // ==========================================
-  // 2. LUNCH (8 ITEMS)
+  // 2. LUNCH (12:00 PM – 3:00 PM) — 8 ITEMS
   // ==========================================
   {
     id: 'lu-1',
-    name: 'Chicken Biryani',
-    quantity: '1 kg chicken + 1 kg rice',
+    name: 'Chicken Biriyani',
+    quantity: 'Chicken 1 kg + Rice 1 kg',
     price: 1200,
     isVeg: false,
     category: 'lunch',
     description: 'Signature homemade chicken dum biriyani prepared with 1 kg tender chicken and 1 kg fragrant basmati rice slow-cooked in hand-ground spices.',
     image: '/assets/food/chicken-biryani.jpg',
-    alt: 'Homestyle royal chicken dum biryani with 1 kg chicken and 1 kg rice',
+    alt: 'Homestyle royal chicken dum biriyani with 1 kg chicken and 1 kg rice',
     isSignature: true,
   },
   {
     id: 'lu-2',
-    name: 'Mutton Biryani',
-    quantity: '1 kg mutton + 1 kg rice',
+    name: 'Mutton Biriyani',
+    quantity: 'Mutton 1 kg + Rice 1 kg',
     price: 2100,
     isVeg: false,
     category: 'lunch',
     description: 'Royal slow-cooked dum biriyani prepared with 1 kg succulent mutton pieces and 1 kg fragrant seasoned rice.',
     image: '/assets/food/mutton-biryani.jpg',
-    alt: 'Royal aromatic slow-cooked mutton dum biryani',
+    alt: 'Royal aromatic slow-cooked mutton dum biriyani',
     isSignature: true,
   },
   {
@@ -184,13 +192,13 @@ export const allMenuItems = [
   {
     id: 'lu-5',
     name: 'Meals',
-    quantity: 'white rice, sambar, appalam',
+    quantity: 'White Rice, Sambar, Appalam',
     price: 750,
     isVeg: true,
     category: 'lunch',
-    description: 'Wholesome South Indian feast with hot steamed rice, aromatic homestyle sambar, and crispy appalam.',
+    description: 'Wholesome South Indian feast with hot steamed white rice, aromatic homestyle sambar, and crispy appalam.',
     image: '/assets/food/meals.jpg',
-    alt: 'Traditional South Indian lunch meal with rice, sambar, and appalam',
+    alt: 'Traditional South Indian lunch meal with white rice, sambar, and appalam',
     isSignature: true,
   },
   {
@@ -231,7 +239,7 @@ export const allMenuItems = [
   },
 
   // ==========================================
-  // 3. DINNER (11 ITEMS)
+  // 3. DINNER (6:00 PM – 10:00 PM) — 11 ITEMS
   // ==========================================
   {
     id: 'din-1',
