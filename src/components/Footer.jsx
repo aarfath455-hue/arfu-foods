@@ -6,26 +6,26 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-cream-200/90 dark:bg-charcoal-950 border-t border-cocoa-800/10 dark:border-white/10 text-cocoa-800 dark:text-cream-200/80 pt-16 pb-24 md:pb-14 text-sm transition-colors duration-200">
+    <footer className="bg-cream-200/90 dark:bg-forest-950 border-t border-wood-800/10 dark:border-gold/20 text-wood-800 dark:text-cream-200/80 pt-16 pb-24 md:pb-14 text-sm transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 pb-12 border-b border-cocoa-800/10 dark:border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 pb-12 border-b border-wood-800/10 dark:border-white/10">
           
           {/* Brand Info */}
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-3 mb-3.5">
-              <div className="w-12 h-12 rounded-full overflow-hidden border border-gold/40 bg-white dark:bg-charcoal-900 flex-shrink-0 shadow-sm p-0.5">
+              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gold/50 bg-white dark:bg-forest-900 flex-shrink-0 shadow-sm p-0.5">
                 <img
                   src={businessInfo.logo}
                   onError={(e) => {
-                    e.currentTarget.src = '/assets/logo.svg';
+                    e.currentTarget.src = '/assets/logo.jpg';
                   }}
                   alt="ARFU HOMEMADE FOODS Logo"
                   className="w-full h-full object-cover rounded-full"
                 />
               </div>
               <div>
-                <span className="font-serif font-bold text-base sm:text-lg text-cocoa-900 dark:text-cream-50 tracking-wide block uppercase">
+                <span className="font-serif font-bold text-base sm:text-lg text-wood-950 dark:text-cream-50 tracking-wide block uppercase">
                   {businessInfo.name}
                 </span>
                 <span className="font-serif italic text-xs text-gold-700 dark:text-gold block">
@@ -34,14 +34,14 @@ export default function Footer() {
               </div>
             </div>
 
-            <p className="text-xs text-cocoa-700/80 dark:text-cream-300/80 max-w-sm font-normal leading-relaxed mb-4">
+            <p className="text-xs text-wood-700/80 dark:text-cream-300/80 max-w-sm font-normal leading-relaxed mb-4">
               {businessInfo.subheadline}
             </p>
 
             {/* FSSAI Badge if configured */}
             {businessInfo.fssaiNumber ? (
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/70 dark:bg-charcoal-900 border border-gold/30 text-xs text-cocoa-900 dark:text-cream-100 shadow-sm">
-                <ShieldCheck className="w-4 h-4 text-gold-600 dark:text-gold" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/70 dark:bg-forest-900 border border-gold/30 text-xs text-wood-950 dark:text-cream-100 shadow-sm">
+                <ShieldCheck className="w-4 h-4 text-gold-700 dark:text-gold" />
                 <span>FSSAI Reg. No: <strong>{businessInfo.fssaiNumber}</strong></span>
               </div>
             ) : null}
@@ -52,7 +52,7 @@ export default function Footer() {
             <h4 className="font-mono text-xs uppercase tracking-widest text-gold-700 dark:text-gold mb-3.5 font-bold">
               Menu Index
             </h4>
-            <ul className="space-y-2 text-xs uppercase tracking-wider text-cocoa-800/90 dark:text-cream-200/90 font-medium">
+            <ul className="space-y-2 text-xs uppercase tracking-wider text-wood-800/90 dark:text-cream-200/90 font-medium">
               <li>
                 <a href="#home" className="hover:text-gold-700 dark:hover:text-gold transition-colors">
                   Home
@@ -61,6 +61,11 @@ export default function Footer() {
               <li>
                 <a href="#menu-card" className="hover:text-gold-700 dark:hover:text-gold transition-colors font-bold text-gold-700 dark:text-gold">
                   Menu Card (Poster)
+                </a>
+              </li>
+              <li>
+                <a href="#menu" className="hover:text-gold-700 dark:hover:text-gold transition-colors">
+                  Interactive Food Menu
                 </a>
               </li>
               <li>
@@ -85,7 +90,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#why-us" className="hover:text-gold-700 dark:hover:text-gold transition-colors">
-                  Why ARFU
+                  About ARFU
                 </a>
               </li>
               <li>
@@ -104,23 +109,23 @@ export default function Footer() {
             
             <div className="space-y-3.5">
               {/* Line 1 */}
-              <div className="p-3 rounded-2xl bg-white/70 dark:bg-charcoal-900 border border-cocoa-800/10 dark:border-white/10 shadow-sm">
+              <div className="p-3.5 rounded-2xl bg-white/70 dark:bg-forest-900 border border-wood-800/10 dark:border-gold/30 shadow-sm">
                 <span className="text-[10px] uppercase tracking-widest text-gold-700 dark:text-gold font-bold block mb-1">
                   Primary Line 1
                 </span>
                 <div className="flex items-center justify-between gap-3">
                   <a
                     href={businessInfo.phone1.tel}
-                    className="flex items-center gap-1.5 text-cocoa-900 dark:text-cream-50 hover:text-gold-700 dark:hover:text-gold transition-colors font-bold text-sm"
+                    className="flex items-center gap-1.5 text-wood-950 dark:text-cream-50 hover:text-gold-700 dark:hover:text-gold transition-colors font-bold text-sm"
                   >
-                    <Phone className="w-3.5 h-3.5 text-gold-600 dark:text-gold" />
+                    <Phone className="w-3.5 h-3.5 text-gold-700 dark:text-gold" />
                     <span>{businessInfo.phone1.display}</span>
                   </a>
                   <a
                     href={businessInfo.phone1.whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#25D366]/15 hover:bg-[#25D366] text-[#128C7E] dark:text-[#25D366] hover:text-white text-xs font-semibold transition-all"
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#1b7a43]/15 hover:bg-[#25D366] text-[#128C7E] dark:text-[#25D366] hover:text-white text-xs font-semibold transition-all border border-[#25D366]/30"
                   >
                     <MessageCircle className="w-3 h-3 fill-current" />
                     <span>WhatsApp</span>
@@ -129,23 +134,23 @@ export default function Footer() {
               </div>
 
               {/* Line 2 */}
-              <div className="p-3 rounded-2xl bg-white/70 dark:bg-charcoal-900 border border-cocoa-800/10 dark:border-white/10 shadow-sm">
+              <div className="p-3.5 rounded-2xl bg-white/70 dark:bg-forest-900 border border-wood-800/10 dark:border-gold/30 shadow-sm">
                 <span className="text-[10px] uppercase tracking-widest text-gold-700 dark:text-gold font-bold block mb-1">
                   Primary Line 2
                 </span>
                 <div className="flex items-center justify-between gap-3">
                   <a
                     href={businessInfo.phone2.tel}
-                    className="flex items-center gap-1.5 text-cocoa-900 dark:text-cream-50 hover:text-gold-700 dark:hover:text-gold transition-colors font-bold text-sm"
+                    className="flex items-center gap-1.5 text-wood-950 dark:text-cream-50 hover:text-gold-700 dark:hover:text-gold transition-colors font-bold text-sm"
                   >
-                    <Phone className="w-3.5 h-3.5 text-gold-600 dark:text-gold" />
+                    <Phone className="w-3.5 h-3.5 text-gold-700 dark:text-gold" />
                     <span>{businessInfo.phone2.display}</span>
                   </a>
                   <a
                     href={businessInfo.phone2.whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#25D366]/15 hover:bg-[#25D366] text-[#128C7E] dark:text-[#25D366] hover:text-white text-xs font-semibold transition-all"
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#1b7a43]/15 hover:bg-[#25D366] text-[#128C7E] dark:text-[#25D366] hover:text-white text-xs font-semibold transition-all border border-[#25D366]/30"
                   >
                     <MessageCircle className="w-3 h-3 fill-current" />
                     <span>WhatsApp</span>
@@ -153,8 +158,8 @@ export default function Footer() {
                 </div>
               </div>
 
-              <p className="text-[11px] text-cocoa-700/70 dark:text-cream-300/60 pt-1 font-normal">
-                Call or WhatsApp anytime to place your order. Delivery across cottages & resorts in Ooty.
+              <p className="text-[11px] text-wood-700/70 dark:text-cream-300/60 pt-1 font-normal">
+                Call or WhatsApp anytime to place your order. Fresh homestyle delivery across cottages & stays in Ooty.
               </p>
             </div>
           </div>
@@ -162,9 +167,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright notice */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-cocoa-700/70 dark:text-cream-300/60 gap-3">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-wood-700/70 dark:text-cream-300/60 gap-3">
           <p>© {currentYear} {businessInfo.name}. All rights reserved.</p>
-          <p className="font-serif italic text-cocoa-800 dark:text-cream-200">
+          <p className="font-serif italic text-wood-800 dark:text-cream-200">
             "{businessInfo.tagline}"
           </p>
         </div>

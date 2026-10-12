@@ -18,10 +18,10 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #FAF7F0;
+    background: #FAF6EE;
   }
   ::-webkit-scrollbar-thumb {
-    background: #DCC8AE;
+    background: #DDC6AA;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
@@ -30,14 +30,23 @@
 
   /* Dark mode scrollbar */
   .dark ::-webkit-scrollbar-track {
-    background: #100E0D;
+    background: #080A09;
   }
   .dark ::-webkit-scrollbar-thumb {
-    background: #2C2621;
+    background: #193D2A;
+    border-radius: 9999px;
   }
   .dark ::-webkit-scrollbar-thumb:hover {
     background: #C5A059;
   }
+}
+
+/* 3D Perspective and Transform-Style Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
 }
 
 /* Reduced motion support */
@@ -47,29 +56,94 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+    transform: none !important;
   }
 }
 
-/* Subtle, gentle floating animation for hero dish showcase */
-@keyframes subtleFloat1 {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(-1deg); }
+/* Ambient Amber Lantern Lighting Pulse */
+@keyframes amberBreathe {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.08);
+  }
 }
 
-@keyframes subtleFloat2 {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(6px) rotate(1deg); }
+.animate-amber-breathe {
+  animation: amberBreathe 8s ease-in-out infinite;
 }
 
-.animate-subtle-1 {
-  animation: subtleFloat1 7s ease-in-out infinite;
+/* Gentle floating animation for centerpiece dish plate */
+@keyframes plateFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-0.5deg);
+  }
 }
 
-.animate-subtle-2 {
-  animation: subtleFloat2 8.5s ease-in-out infinite;
+.animate-plate-float {
+  animation: plateFloat 7s ease-in-out infinite;
 }
 
-/* Subtle steam rising keyframes */
+/* Floating Spice Particles (Curry Leaf & Spices) */
+@keyframes spiceDrift1 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(12px, -18px) rotate(15deg);
+  }
+  66% {
+    transform: translate(-10px, -35px) rotate(-10deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes spiceDrift2 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(-14px, -20px) rotate(-12deg);
+  }
+  66% {
+    transform: translate(8px, -40px) rotate(18deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes spiceDrift3 {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(15px, -25px) rotate(25deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+.animate-spice-1 {
+  animation: spiceDrift1 14s ease-in-out infinite;
+}
+.animate-spice-2 {
+  animation: spiceDrift2 18s ease-in-out infinite;
+}
+.animate-spice-3 {
+  animation: spiceDrift3 16s ease-in-out infinite;
+}
+
+/* Gentle steam rising keyframes */
 @keyframes gentleSteam {
   0% {
     transform: translateY(0) scaleX(0.8) scaleY(0.8);
@@ -91,12 +165,11 @@
 .animate-steam-gentle-1 {
   animation: gentleSteam 5s ease-out infinite;
 }
-
 .animate-steam-gentle-2 {
   animation: gentleSteam 6s ease-out 2s infinite;
 }
 
-/* Hide scrollbar utility for clean mobile chip scrolling */
+/* Hide scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
