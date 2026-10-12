@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import HeroKitchenTable from './components/HeroKitchenTable';
-import MenuTransition from './components/MenuTransition';
+import Hero from './components/Hero';
 import MenuSection from './components/MenuSection';
 import HowToOrder from './components/HowToOrder';
 import WhyUs from './components/WhyUs';
@@ -10,11 +9,8 @@ import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
 import ContactModal from './components/ContactModal';
 import FoodDetailModal from './components/FoodDetailModal';
-import EditorialNavOverlay from './components/EditorialNavOverlay';
-import CustomCursor from './components/CustomCursor';
 
 export default function App() {
-  const [navOverlayOpen, setNavOverlayOpen] = useState(false);
   const [contactModal, setContactModal] = useState({
     isOpen: false,
     mode: 'call', // 'call' or 'whatsapp'
@@ -31,67 +27,42 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-forest-950 text-cream flex flex-col font-sans selection:bg-limeAccent selection:text-forest-950 overflow-x-hidden">
-      {/* Desktop Custom Interactive Cursor */}
-      <CustomCursor />
-
-      {/* Unconventional Minimal Header */}
-      <Navbar
-        onOpenNavOverlay={() => setNavOverlayOpen(true)}
-        onOpenContact={handleOpenContact}
-      />
-
-      {/* Full-Screen Editorial Navigation Index Overlay */}
-      <EditorialNavOverlay
-        isOpen={navOverlayOpen}
-        onClose={() => setNavOverlayOpen(false)}
-        onOpenContact={handleOpenContact}
-      />
+    <div className="min-h-screen bg-cream-100 dark:bg-charcoal-900 text-cocoa-900 dark:text-cream-50 flex flex-col font-sans selection:bg-gold selection:text-charcoal-950 overflow-x-hidden transition-colors duration-200">
+      {/* Header / Navbar with Light/Dark Mode Toggle & Brand */}
+      <Navbar onOpenContact={handleOpenContact} />
 
       {/* Main Experience */}
       <main className="flex-1">
-        {/* 1. ARFU HOMEMADE FOODS — The 3D Kitchen Table Hero */}
-        <HeroKitchenTable
-          onOpenContact={handleOpenContact}
-          onOpenPreview={(item) => setPreviewItem(item)}
-        />
+        {/* 1. Master Redesign Hero */}
+        <Hero onOpenContact={handleOpenContact} />
 
-        {/* 2. Cinematic Transition: 01 — EXPLORE THE MENU */}
-        <MenuTransition />
+        {/* 2. Structured Food Menu (Breakfast, Lunch, Dinner with Category Tabs & Search) */}
+        <MenuSection onOpenPreview={(item) => setPreviewItem(item)} />
 
-        {/* 3. Complete Structured Food Menu (Breakfast, Veg, Non-Veg, Lunch, Dinner, Rice & Extras) */}
-        <MenuSection
-          onOpenPreview={(item) => setPreviewItem(item)}
-        />
-
-        {/* 5. 3-Step Simple Order Guide */}
+        {/* 3. 3-Step Simple Order Guide */}
         <HowToOrder />
 
-        {/* 6. Why Choose ARFU Homemade Foods */}
+        {/* 4. Why Choose ARFU Homemade Foods */}
         <WhyUs />
 
-        {/* 7. Dramatic "FEELING HUNGRY?" Contact Section */}
-        <ContactSection
-          onOpenContact={handleOpenContact}
-        />
+        {/* 5. Contact Lines Section (Dual Numbers, Zero Address) */}
+        <ContactSection onOpenContact={handleOpenContact} />
       </main>
 
-      {/* Footer */}
+      {/* Footer with Menu Links & Brand Details */}
       <Footer />
 
-      {/* Floating Action Button (Desktop WhatsApp + Mobile Sticky Bottom Bar) */}
-      <FloatingActions
-        onOpenContact={handleOpenContact}
-      />
+      {/* Non-intrusive Floating WhatsApp & Call Quick Actions */}
+      <FloatingActions onOpenContact={handleOpenContact} />
 
-      {/* Direct Contact Modal (Displays both +91 94427 91057 and +91 95859 91057) */}
+      {/* Direct Contact Modal (Call or WhatsApp on both active numbers) */}
       <ContactModal
         isOpen={contactModal.isOpen}
         onClose={handleCloseContact}
         mode={contactModal.mode}
       />
 
-      {/* Full-Screen Food Detail Modal Preview with Direct WhatsApp Ordering */}
+      {/* Food Detail Modal Preview with Direct WhatsApp Ordering */}
       <FoodDetailModal
         item={previewItem}
         onClose={() => setPreviewItem(null)}

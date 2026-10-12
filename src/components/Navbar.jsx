@@ -1,113 +1,175 @@
 import React, { useState, useEffect } from 'react';
-import { Menu as MenuIcon, Phone, MessageCircle } from 'lucide-react';
+import { Menu as MenuIcon, X, Phone, MessageCircle, Sun, Moon } from 'lucide-react';
 import { businessInfo } from '../data/business';
+import { useTheme } from '../context/ThemeContext';
 
-export default function Navbar({ onOpenNavOverlay, onOpenContact }) {
+export default function Navbar({ onOpenContact }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { label: 'Breakfast', href: '#breakfast' },
+    { label: 'Lunch', href: '#lunch' },
+    { label: 'Dinner', href: '#dinner' },
+    { label: 'Why Us', href: '#why-us' },
+    { label: 'Contact', href: '#contact' },
+  ];
+
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-forest-950/90 backdrop-blur-md py-3 border-b border-white/10 shadow-lg'
-          : 'bg-transparent py-5 sm:py-7'
+          ? 'bg-cream-100/95 dark:bg-charcoal-950/95 backdrop-blur-md py-2.5 sm:py-3 shadow-card-light dark:shadow-card-dark border-b border-cocoa-800/10 dark:border-white/10'
+          : 'bg-cream-100/80 dark:bg-charcoal-950/80 backdrop-blur-sm py-3 sm:py-4 border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-2">
           
-          {/* Top-Left: Minimal ARFU Brand Logo & Text */}
+          {/* Logo & Business Name */}
           <a
             href="#home"
-            className="flex items-center gap-3 group focus:outline-none focus:ring-1 focus:ring-limeAccent rounded-full p-1"
+            className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-gold rounded-full p-1"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-white/30 shadow-sm flex-shrink-0 bg-forest-900">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-gold/40 shadow-sm flex-shrink-0 bg-cream-200 dark:bg-charcoal-800 transition-transform duration-300 group-hover:scale-105">
               <img
                 src={businessInfo.logo}
                 onError={(e) => {
-                  e.currentTarget.src = '/assets/logo.svg';
+                  e.currentTarget.src = '/assets/logo.jpg';
                 }}
-                alt="ARFU Logo"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                alt="ARFU HOMEMADE FOODS Logo"
+                className="w-full h-full object-cover"
+                width="44"
+                height="44"
               />
             </div>
-            <div>
-              <span className="font-serif font-black text-lg sm:text-xl tracking-widest text-cream block uppercase leading-none group-hover:text-limeAccent transition-colors">
+            <div className="flex flex-col">
+              <span className="font-serif font-bold text-base sm:text-lg tracking-wide text-cocoa-900 dark:text-cream-50 leading-tight group-hover:text-gold transition-colors">
                 ARFU
               </span>
-              <span className="text-[9px] uppercase tracking-ultra-wide text-limeAccent font-medium block">
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-gold-600 dark:text-gold font-semibold leading-none">
                 HOMEMADE FOODS
               </span>
             </div>
           </a>
 
-          {/* Center/Right Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6" aria-label="Main Navigation">
-            <a
-              href="#breakfast"
-              className="text-xs uppercase tracking-widest text-cream/80 hover:text-limeAccent font-medium transition-colors"
-            >
-              BREAKFAST
-            </a>
-            <a
-              href="#lunch"
-              className="text-xs uppercase tracking-widest text-cream/80 hover:text-limeAccent font-medium transition-colors"
-            >
-              LUNCH
-            </a>
-            <a
-              href="#dinner"
-              className="text-xs uppercase tracking-widest text-cream/80 hover:text-limeAccent font-medium transition-colors"
-            >
-              DINNER
-            </a>
-            <a
-              href="#contact"
-              className="text-xs uppercase tracking-widest text-cream/80 hover:text-limeAccent font-medium transition-colors"
-            >
-              CONTACT
-            </a>
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-7" aria-label="Main Navigation">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-xs font-semibold tracking-wider uppercase text-cocoa-800/80 hover:text-cocoa-900 dark:text-cream-200/80 dark:hover:text-gold transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gold after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:origin-left"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
 
-          {/* Action CTAs */}
+          {/* Right Controls: Theme Toggle + Phone/WhatsApp CTAs + Mobile Menu Toggle */}
           <div className="flex items-center gap-2 sm:gap-3">
+            
+            {/* Theme Toggle Button (Light / Dark) */}
+            <button
+              onClick={toggleTheme}
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-cream-200/70 hover:bg-cream-300 dark:bg-charcoal-800 dark:hover:bg-charcoal-700 text-cocoa-900 dark:text-gold border border-cocoa-800/10 dark:border-white/10 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold"
+              aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+              title={isDark ? "Switch to light theme" : "Switch to dark theme"}
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5 text-gold animate-subtle-1" />
+              ) : (
+                <Moon className="w-5 h-5 text-cocoa-800" />
+              )}
+            </button>
+
+            {/* Direct Call Line Button (Tablet & Desktop) */}
             <button
               onClick={() => onOpenContact('call')}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/20 hover:border-limeAccent text-cream hover:text-limeAccent text-xs uppercase tracking-widest font-semibold transition-all active:scale-95"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-cocoa-800/20 dark:border-white/15 text-cocoa-900 dark:text-cream-100 hover:border-gold hover:text-gold dark:hover:text-gold text-xs font-semibold uppercase tracking-wider transition-all min-h-[44px] min-w-[44px] focus:outline-none focus:ring-2 focus:ring-gold"
+              aria-label="Call kitchen order lines"
             >
-              <Phone className="w-3.5 h-3.5 text-limeAccent" />
-              <span>CALL</span>
+              <Phone className="w-3.5 h-3.5 text-gold" />
+              <span>Call</span>
             </button>
 
+            {/* WhatsApp Order Button */}
             <button
               onClick={() => onOpenContact('whatsapp')}
-              data-cursor="ORDER"
-              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white text-xs uppercase tracking-wider font-bold transition-all border border-[#25D366]/40 active:scale-95"
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm hover:shadow-whatsapp-glow min-h-[44px] active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+              aria-label="Order on WhatsApp"
             >
-              <MessageCircle className="w-3.5 h-3.5 fill-current text-limeAccent" />
-              <span>WHATSAPP</span>
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span className="hidden xs:inline sm:inline">WhatsApp</span>
             </button>
 
-            {/* Mobile / Full Menu Drawer Button */}
+            {/* Mobile Hamburger Drawer Button */}
             <button
-              onClick={onOpenNavOverlay}
-              className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-cream hover:text-limeAccent border border-white/15 transition-colors lg:hidden"
-              aria-label="Open menu overlay"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="w-11 h-11 flex items-center justify-center rounded-full bg-cream-200/70 dark:bg-charcoal-800 text-cocoa-900 dark:text-cream-100 border border-cocoa-800/10 dark:border-white/10 lg:hidden focus:outline-none focus:ring-2 focus:ring-gold"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              <MenuIcon className="w-5 h-5" />
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
             </button>
           </div>
 
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown / Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-cream-50 dark:bg-charcoal-900 border-b border-cocoa-800/10 dark:border-white/10 px-5 py-4 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <nav className="flex flex-col gap-2" aria-label="Mobile Navigation">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={handleNavClick}
+                className="py-2.5 px-3 rounded-xl text-sm font-semibold tracking-wide uppercase text-cocoa-900 dark:text-cream-100 hover:bg-cream-200 dark:hover:bg-charcoal-800 transition-colors flex items-center justify-between"
+              >
+                <span>{link.label}</span>
+                <span className="text-gold text-xs">→</span>
+              </a>
+            ))}
+            
+            <div className="pt-3 mt-2 border-t border-cocoa-800/10 dark:border-white/10 flex items-center justify-between gap-3">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenContact('call');
+                }}
+                className="flex-1 py-2.5 rounded-xl border border-cocoa-800/20 dark:border-white/15 text-cocoa-900 dark:text-cream-100 text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center gap-1.5"
+              >
+                <Phone className="w-3.5 h-3.5 text-gold" />
+                <span>Call Kitchen</span>
+              </button>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenContact('whatsapp');
+                }}
+                className="flex-1 py-2.5 rounded-xl bg-[#25D366] text-white text-xs font-bold uppercase tracking-wider inline-flex items-center justify-center gap-1.5"
+              >
+                <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                <span>WhatsApp</span>
+              </button>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

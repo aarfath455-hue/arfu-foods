@@ -1,253 +1,170 @@
 import React from 'react';
-import { ArrowDown, MessageCircle, Phone, Sparkles } from 'lucide-react';
+import { ArrowDown, MessageCircle, Sparkles, UtensilsCrossed } from 'lucide-react';
 import { businessInfo } from '../data/business';
-import { allMenuItems } from '../data/menu';
 
-export default function Hero({ onOpenContact, onOpenPreview }) {
-  // Select items for floating pill panels
-  const biryaniItem = allMenuItems.find((i) => i.id === 'nv-6') || allMenuItems[0];
-  const chickenFryItem = allMenuItems.find((i) => i.id === 'nv-1') || allMenuItems[1];
-  const dosaItem = allMenuItems.find((i) => i.id === 'bf-4') || allMenuItems[2];
-  const idlyItem = allMenuItems.find((i) => i.id === 'bf-1') || allMenuItems[3];
-  const muttonBiryaniItem = allMenuItems.find((i) => i.id === 'nv-5') || allMenuItems[4];
+export default function Hero({ onOpenContact }) {
+  const scrollToMenu = () => {
+    const el = document.getElementById('menu');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-forest-950">
-      
-      {/* ============================================================ */}
-      {/* 1. CINEMATIC HEAVILY BLURRED REAL FOOD BACKGROUND             */}
-      {/* ============================================================ */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <img
-          src="/assets/food/chicken-biryani.jpg"
-          alt="Cinematic homemade feast background"
-          className="w-full h-full object-cover object-center scale-110 filter blur-xl saturate-50 brightness-40 opacity-45"
-        />
-        {/* Radial vignette & dark forest gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/80 to-forest-950/70" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#060F0A_80%)]" />
+    <section
+      id="home"
+      className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 lg:pb-20 overflow-hidden transition-colors duration-200"
+    >
+      {/* Background Ambience Layer */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+        {/* Soft Radial Ambient Glow */}
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[340px] sm:w-[600px] lg:w-[900px] h-[340px] sm:h-[450px] bg-gold/10 dark:bg-gold/15 rounded-full blur-3xl opacity-70" />
+        <div className="absolute top-1/3 -right-20 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-cocoa-500/5 dark:bg-cocoa-700/20 rounded-full blur-2xl opacity-60" />
       </div>
 
-      {/* ============================================================ */}
-      {/* 2. MAIN EDITORIAL CONTENT & DRAMATIC OVERSIZED TYPOGRAPHY   */}
-      {/* ============================================================ */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 w-full my-auto py-8">
-        
-        {/* Top/Center: Official Brand Logo with Subtle Halo */}
-        <div className="flex flex-col items-center mb-6">
-          <div className="relative group">
-            <div className="absolute -inset-3 bg-limeAccent/20 rounded-full blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-b from-white/40 to-white/10 shadow-2xl flex items-center justify-center backdrop-blur-md">
-              <div className="w-full h-full rounded-full overflow-hidden bg-forest-900 flex items-center justify-center">
-                <img
-                  src={businessInfo.logo}
-                  onError={(e) => {
-                    e.currentTarget.src = '/assets/logo.svg';
-                  }}
-                  alt="ARFU HOMEMADE FOODS Logo"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            </div>
-          </div>
-          <span className="font-editorial italic text-xs sm:text-sm text-limeAccent tracking-widest mt-3">
-            "{businessInfo.tagline}"
-          </span>
-        </div>
-
-        {/* Oversized Controlled-Asymmetry Editorial Typography */}
-        <div className="text-center max-w-5xl mx-auto mb-10">
-          <div className="inline-block">
-            <h1 className="font-serif font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tighter-dramatic text-cream leading-[0.9] uppercase select-none">
-              ARFU
-            </h1>
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-center sm:gap-6 mt-1 sm:mt-2">
-              <span className="font-serif font-bold text-3xl sm:text-5xl md:text-6xl text-limeAccent tracking-tight uppercase">
-                HOMEMADE
-              </span>
-              <span className="font-serif italic font-normal text-3xl sm:text-5xl md:text-6xl text-cream/80 tracking-tight">
-                FOODS
-              </span>
-            </div>
-          </div>
-
-          <p className="text-xs sm:text-base text-cream/70 max-w-lg mx-auto mt-5 font-light tracking-wide leading-relaxed">
-            Freshly prepared traditional South Indian recipes & authentic homemade specialties, crafted for your order.
-          </p>
-        </div>
-
-        {/* ============================================================ */}
-        {/* 3. FLOATING HORIZONTAL PILL-SHAPED FOOD IMAGE PANELS         */}
-        {/* ============================================================ */}
-        <div className="relative my-8 sm:my-12 max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Desktop/Tablet Layout: Asymmetric Layered Floating Pills */}
-          <div className="hidden sm:flex flex-col gap-4 relative">
+          {/* Left Column: Brand Story & CTAs (Spans 7 cols on desktop) */}
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
             
-            {/* Pill Panel 1: Left-aligned (Chicken Biryani) */}
-            <div
-              onClick={() => onOpenPreview(biryaniItem)}
-              data-cursor="VIEW"
-              className="pill-image-panel animate-float-1 self-start ml-2 sm:ml-8 max-w-md w-full p-2 pr-6 flex items-center gap-4 cursor-pointer group"
-            >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 border border-white/40">
-                <img
-                  src={biryaniItem.image}
-                  alt={biryaniItem.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-limeAccent block">
-                  Signature Specialty
-                </span>
-                <span className="font-serif font-bold text-base sm:text-lg text-cream truncate block">
-                  {biryaniItem.name}
-                </span>
-              </div>
-              <span className="font-serif text-base font-bold text-limeAccent">
-                ₹{biryaniItem.price}
-              </span>
+            {/* Subtle Pill Tag */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cream-200/80 dark:bg-charcoal-800/80 border border-gold/30 text-gold-700 dark:text-gold text-xs font-semibold uppercase tracking-wider mb-4 shadow-sm backdrop-blur-sm">
+              <Sparkles className="w-3.5 h-3.5 text-gold animate-subtle-1" />
+              <span>Ooty's Homestyle Kitchen</span>
             </div>
 
-            {/* Pill Panel 2: Right-aligned (Crispy Chicken Fry) */}
-            <div
-              onClick={() => onOpenPreview(chickenFryItem)}
-              data-cursor="VIEW"
-              className="pill-image-panel animate-float-2 self-end mr-2 sm:mr-10 max-w-lg w-full p-2.5 pr-7 flex items-center gap-4 cursor-pointer group -mt-2 sm:-mt-4"
-            >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 border border-white/40">
-                <img
-                  src={chickenFryItem.image}
-                  alt={chickenFryItem.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-terracotta block">
-                  Kongu Country Roast
-                </span>
-                <span className="font-serif font-bold text-base sm:text-lg text-cream truncate block">
-                  {chickenFryItem.name} (1 kg)
-                </span>
-              </div>
-              <span className="font-serif text-base font-bold text-cream">
-                ₹{chickenFryItem.price}
+            {/* Exact Hero Headline */}
+            <h1 className="font-serif font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-cocoa-900 dark:text-cream-50 leading-[1.08] mb-3.5">
+              Homemade Goodness. <br className="hidden sm:inline" />
+              <span className="italic font-normal text-gold-600 dark:text-gold">
+                Authentic Taste.
               </span>
-            </div>
+            </h1>
 
-            {/* Pill Panel 3: Center-left aligned (Dosa & Idly Breakfast) */}
-            <div
-              onClick={() => onOpenPreview(dosaItem)}
-              data-cursor="VIEW"
-              className="pill-image-panel animate-float-1 self-center max-w-md w-full p-2 pr-6 flex items-center gap-4 cursor-pointer group -mt-1"
-            >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 border border-white/40">
-                <img
-                  src={dosaItem.image}
-                  alt={dosaItem.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-limeAccent block">
-                  Crispy Homestyle
-                </span>
-                <span className="font-serif font-bold text-base sm:text-lg text-cream truncate block">
-                  Golden Roast Dosa
-                </span>
-              </div>
-              <span className="font-serif text-base font-bold text-limeAccent">
-                ₹{dosaItem.price}
-              </span>
-            </div>
+            {/* Exact Supporting Text */}
+            <p className="text-base sm:text-lg text-cocoa-800/80 dark:text-cream-200/80 max-w-xl font-normal leading-relaxed mb-6 sm:mb-8">
+              Freshly prepared favourites for your stay in Ooty.
+            </p>
 
-          </div>
-
-          {/* Mobile Layout: Horizontal Pill Slider */}
-          <div className="sm:hidden flex overflow-x-auto no-scrollbar gap-3 px-2 py-2">
-            {[biryaniItem, chickenFryItem, dosaItem, idlyItem, muttonBiryaniItem].map((item) => (
-              <div
-                key={`mobile-pill-${item.id}`}
-                onClick={() => onOpenPreview(item)}
-                className="pill-image-panel flex-shrink-0 w-64 p-2 pr-4 flex items-center gap-3 cursor-pointer"
+            {/* Action Buttons: Primary & Secondary CTAs */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              
+              {/* Primary CTA: Explore Our Menu */}
+              <button
+                onClick={scrollToMenu}
+                className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full bg-cocoa-900 dark:bg-gold text-cream-50 dark:text-charcoal-950 hover:bg-cocoa-800 dark:hover:bg-gold-400 font-bold text-sm uppercase tracking-wider shadow-card-light dark:shadow-gold-glow transition-all active:scale-[0.98] min-h-[48px] focus:outline-none focus:ring-2 focus:ring-gold"
               >
-                <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border border-white/30">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="font-serif font-bold text-sm text-cream truncate block">
-                    {item.name}
-                  </span>
-                  <span className="text-xs text-limeAccent font-bold">
-                    ₹{item.price}
-                  </span>
-                </div>
+                <span>Explore Our Menu</span>
+                <ArrowDown className="w-4 h-4 text-gold dark:text-charcoal-950" />
+              </button>
+
+              {/* Secondary CTA: Order on WhatsApp */}
+              <button
+                onClick={() => onOpenContact('whatsapp')}
+                className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm uppercase tracking-wider shadow-sm hover:shadow-whatsapp-glow transition-all active:scale-[0.98] min-h-[48px] focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+              >
+                <MessageCircle className="w-4 h-4 fill-current" />
+                <span>Order on WhatsApp</span>
+              </button>
+
+            </div>
+
+            {/* Highlights Strip */}
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 mt-8 sm:mt-10 pt-6 border-t border-cocoa-800/10 dark:border-white/10 w-full max-w-lg">
+              <div className="flex flex-col items-center lg:items-start">
+                <span className="font-serif font-bold text-lg sm:text-xl text-cocoa-900 dark:text-cream-50">100%</span>
+                <span className="text-[11px] sm:text-xs text-cocoa-700/70 dark:text-cream-300/70 uppercase tracking-wide">Homemade</span>
               </div>
-            ))}
+              <div className="flex flex-col items-center lg:items-start border-x border-cocoa-800/10 dark:border-white/10 px-2">
+                <span className="font-serif font-bold text-lg sm:text-xl text-cocoa-900 dark:text-cream-50">Fresh</span>
+                <span className="text-[11px] sm:text-xs text-cocoa-700/70 dark:text-cream-300/70 uppercase tracking-wide">Cooked Daily</span>
+              </div>
+              <div className="flex flex-col items-center lg:items-start">
+                <span className="font-serif font-bold text-lg sm:text-xl text-cocoa-900 dark:text-cream-50">Direct</span>
+                <span className="text-[11px] sm:text-xs text-cocoa-700/70 dark:text-cream-300/70 uppercase tracking-wide">WhatsApp Line</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column: 3D-Inspired Layered Food Showcase (Spans 5 cols on desktop) */}
+          <div className="lg:col-span-5 relative flex justify-center items-center py-4 sm:py-6">
+            
+            {/* Main Featured Dish Plate (Layer 1 - Center) */}
+            <div className="relative w-64 sm:w-80 lg:w-96 aspect-square rounded-full p-2 bg-gradient-to-tr from-gold/30 via-gold/10 to-transparent dark:from-gold/40 dark:via-charcoal-800/40 border border-gold/40 shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
+              
+              {/* Inner Plate */}
+              <div className="relative w-full h-full rounded-full overflow-hidden shadow-inner bg-cream-200 dark:bg-charcoal-850">
+                <img
+                  src="/assets/food/chicken-biryani.jpg"
+                  alt="Signature Homestyle Chicken Biryani"
+                  className="w-full h-full object-cover rounded-full"
+                  loading="eager"
+                  width="400"
+                  height="400"
+                />
+                
+                {/* Soft Radial Vignette */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+              </div>
+
+              {/* Gentle Steam Rising Above Main Plate */}
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 pointer-events-none flex items-center justify-center">
+                <div className="w-8 h-14 bg-white/25 rounded-full filter blur-md animate-steam-gentle-1 -mr-2" />
+                <div className="w-10 h-16 bg-white/20 rounded-full filter blur-lg animate-steam-gentle-2" />
+              </div>
+
+              {/* Dish Badge - Bottom Overlay */}
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-cream-50/95 dark:bg-charcoal-900/95 border border-gold/40 rounded-full py-1.5 px-4 shadow-lg backdrop-blur-md flex items-center gap-2 whitespace-nowrap">
+                <span className="w-2 h-2 rounded-full bg-badge-nonveg" />
+                <span className="font-serif font-bold text-xs sm:text-sm text-cocoa-900 dark:text-cream-50">
+                  Chicken Biryani
+                </span>
+                <span className="text-gold-600 dark:text-gold text-xs font-bold">
+                  ₹1,200
+                </span>
+              </div>
+            </div>
+
+            {/* Floating Satellite Dish 1: Crispy Dosa (Top Left Accent) */}
+            <div className="absolute -top-2 left-2 sm:-left-4 lg:-left-8 w-24 sm:w-32 aspect-square rounded-full p-1 bg-cream-50/90 dark:bg-charcoal-850/90 border border-gold/40 shadow-xl backdrop-blur-md animate-subtle-1 hidden xs:block">
+              <div className="w-full h-full rounded-full overflow-hidden">
+                <img
+                  src="/assets/food/dosa.jpg"
+                  alt="Crispy Roast Dosa"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                  width="130"
+                  height="130"
+                />
+              </div>
+              <div className="absolute -bottom-2 right-0 bg-gold text-charcoal-950 text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                ₹44
+              </div>
+            </div>
+
+            {/* Floating Satellite Dish 2: Paneer Butter Masala (Bottom Right Accent) */}
+            <div className="absolute bottom-4 right-2 sm:-right-4 lg:-right-6 w-24 sm:w-32 aspect-square rounded-full p-1 bg-cream-50/90 dark:bg-charcoal-850/90 border border-gold/40 shadow-xl backdrop-blur-md animate-subtle-2 hidden xs:block">
+              <div className="w-full h-full rounded-full overflow-hidden">
+                <img
+                  src="/assets/food/paneer-butter-masala.jpg"
+                  alt="Creamy Paneer Butter Masala"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                  width="130"
+                  height="130"
+                />
+              </div>
+              <div className="absolute -top-2 left-0 bg-badge-veg text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                Veg
+              </div>
+            </div>
+
           </div>
 
         </div>
-
-        {/* CTA Buttons & Direct Lines */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto mt-6">
-          <a
-            href="#menu"
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-limeAccent hover:bg-limeAccent-400 text-forest-950 font-black text-xs uppercase tracking-widest shadow-glow-lime active:scale-95 transition-all text-center inline-flex items-center justify-center gap-2"
-          >
-            <span>EXPLORE MENU</span>
-            <ArrowDown className="w-4 h-4" />
-          </a>
-
-          <button
-            onClick={() => onOpenContact('whatsapp')}
-            data-cursor="ORDER"
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/30 hover:border-limeAccent text-cream hover:text-limeAccent font-bold text-xs uppercase tracking-widest backdrop-blur-md active:scale-95 transition-all text-center inline-flex items-center justify-center gap-2"
-          >
-            <MessageCircle className="w-4 h-4 text-[#25D366] fill-current" />
-            <span>WHATSAPP ORDER</span>
-          </button>
-        </div>
-
-        {/* Kitchen Phone Lines (Both Clickable, Zero Address) */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-6 text-xs text-cream/70">
-          <span className="uppercase tracking-widest text-[10px] text-limeAccent/80">
-            Direct Kitchen Lines:
-          </span>
-          <a
-            href={businessInfo.phone1.tel}
-            className="hover:text-limeAccent transition-colors font-semibold underline decoration-white/20 underline-offset-4"
-          >
-            {businessInfo.phone1.display}
-          </a>
-          <span className="text-white/20">•</span>
-          <a
-            href={businessInfo.phone2.tel}
-            className="hover:text-limeAccent transition-colors font-semibold underline decoration-white/20 underline-offset-4"
-          >
-            {businessInfo.phone2.display}
-          </a>
-        </div>
-
       </div>
-
-      {/* ============================================================ */}
-      {/* 4. BOTTOM SCROLL INDICATOR                                   */}
-      {/* ============================================================ */}
-      <div className="relative z-10 text-center flex flex-col items-center justify-center pt-4 pb-2">
-        <a
-          href="#menu-transition"
-          className="group inline-flex flex-col items-center gap-2 text-[10px] uppercase tracking-ultra-wide text-cream/60 hover:text-limeAccent transition-colors"
-        >
-          <span>SCROLL TO EXPLORE</span>
-          <div className="w-px h-8 bg-gradient-to-b from-limeAccent to-transparent animate-pulse" />
-        </a>
-      </div>
-
     </section>
   );
 }

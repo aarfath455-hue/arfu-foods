@@ -5,174 +5,102 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
   }
 
   body {
-    background-color: #060F0A;
-    color: #FAF7F0;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
   }
 
-  /* Deep forest custom scrollbar */
+  /* Light mode scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #060F0A;
+    background: #FAF7F0;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1B3628;
+    background: #DCC8AE;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #9FE870;
+    background: #C5A059;
+  }
+
+  /* Dark mode scrollbar */
+  .dark ::-webkit-scrollbar-track {
+    background: #100E0D;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #2C2621;
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: #C5A059;
   }
 }
 
-/* Editorial pill panel with thin white/cream border */
-.pill-image-panel {
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(10, 23, 16, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.pill-image-panel:hover {
-  border-color: rgba(159, 232, 112, 0.6);
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 25px 50px -10px rgba(159, 232, 112, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-}
-
-/* Creative card styling in deep forest */
-.forest-card {
-  background: linear-gradient(180deg, rgba(19, 40, 29, 0.7) 0%, rgba(10, 23, 16, 0.85) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.forest-card:hover {
-  border-color: rgba(159, 232, 112, 0.45);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -8px rgba(159, 232, 112, 0.15), 0 0 20px -5px rgba(159, 232, 112, 0.1);
-}
-
-/* Subtle gentle floating animation for 3D food objects */
-@keyframes floatSlow1 {
+/* Subtle, gentle floating animation for hero dish showcase */
+@keyframes subtleFloat1 {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(-1.5deg); }
+  50% { transform: translateY(-8px) rotate(-1deg); }
 }
 
-@keyframes floatSlow2 {
+@keyframes subtleFloat2 {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(14px) rotate(1.5deg); }
+  50% { transform: translateY(6px) rotate(1deg); }
 }
 
-@keyframes floatSlow3 {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1deg); }
+.animate-subtle-1 {
+  animation: subtleFloat1 7s ease-in-out infinite;
 }
 
-.animate-float-1 {
-  animation: floatSlow1 6.5s ease-in-out infinite;
+.animate-subtle-2 {
+  animation: subtleFloat2 8.5s ease-in-out infinite;
 }
 
-.animate-float-2 {
-  animation: floatSlow2 8s ease-in-out infinite;
-}
-
-.animate-float-3 {
-  animation: floatSlow3 7.2s ease-in-out infinite;
-}
-
-/* 3D preserve-3d helper */
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-/* Organic food object masks: natural blending without chunky borders */
-.organic-food-mask {
-  mask-image: radial-gradient(ellipse 88% 88% at 50% 50%, black 65%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 88% 88% at 50% 50%, black 65%, transparent 100%);
-}
-
-.organic-food-mask-soft {
-  mask-image: radial-gradient(ellipse 82% 82% at 50% 50%, black 50%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 82% 82% at 50% 50%, black 50%, transparent 100%);
-}
-
-/* True 3D natural shadow for floating food objects */
-.drop-shadow-3d-lg {
-  filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.85));
-}
-
-.drop-shadow-3d-md {
-  filter: drop-shadow(0 18px 25px rgba(0, 0, 0, 0.8));
-}
-
-.drop-shadow-3d-fg {
-  filter: drop-shadow(0 30px 45px rgba(0, 0, 0, 0.92));
-}
-
-/* Dining Table 3D Surface & Plate Contact Shadows */
-.dining-table-surface {
-  background: 
-    radial-gradient(ellipse at 50% 10%, rgba(240, 165, 80, 0.12) 0%, transparent 60%),
-    linear-gradient(180deg, #0D0907 0%, #18110D 25%, #251B15 50%, #1C130E 80%, #0F0A07 100%);
-  box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.08), inset 0 20px 40px rgba(0, 0, 0, 0.8);
-}
-
-/* Plate resting contact shadow on table */
-.plate-contact-shadow {
-  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.95)) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.75));
-}
-
-.plate-contact-shadow-lg {
-  filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.95)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.8));
-}
-
-/* Natural steam rising keyframes */
-@keyframes naturalSteam {
+/* Subtle steam rising keyframes */
+@keyframes gentleSteam {
   0% {
-    transform: translateY(0) scaleX(0.7) scaleY(0.7);
+    transform: translateY(0) scaleX(0.8) scaleY(0.8);
     opacity: 0;
   }
-  25% {
-    opacity: 0.38;
+  20% {
+    opacity: 0.35;
   }
-  65% {
-    opacity: 0.22;
-    transform: translateY(-22px) scaleX(1.3) scaleY(1.2) translateX(4px);
+  60% {
+    opacity: 0.18;
+    transform: translateY(-24px) scaleX(1.3) scaleY(1.2) translateX(3px);
   }
   100% {
-    transform: translateY(-44px) scaleX(1.8) scaleY(1.6) translateX(-4px);
+    transform: translateY(-46px) scaleX(1.7) scaleY(1.5) translateX(-3px);
     opacity: 0;
   }
 }
 
-.animate-steam-1 {
-  animation: naturalSteam 4.5s ease-out infinite;
+.animate-steam-gentle-1 {
+  animation: gentleSteam 5s ease-out infinite;
 }
 
-.animate-steam-2 {
-  animation: naturalSteam 5.5s ease-out 1.8s infinite;
+.animate-steam-gentle-2 {
+  animation: gentleSteam 6s ease-out 2s infinite;
 }
 
-.animate-steam-3 {
-  animation: naturalSteam 4.8s ease-out 0.9s infinite;
+/* Hide scrollbar utility for clean mobile chip scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-
-/* Custom interactive cursor (Desktop only) */
-.custom-cursor {
-  pointer-events: none;
-  position: fixed;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, opacity 0.2s, transform 0.05s ease-out;
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

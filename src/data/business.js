@@ -1,18 +1,18 @@
 /**
  * Business Configuration for ARFU HOMEMADE FOODS
  * 
- * - Digital Menu Only
- * - Two Primary Contact Numbers
- * - CRITICAL: ABSOLUTELY NO ADDRESS ANYWHERE ON THIS SITE.
+ * - Homemade Food in Ooty
+ * - Two Primary Contact Numbers: 9442791057 and 9585991057
+ * - STRICT PROHIBITION: ABSOLUTELY NO ADDRESS OR MAP.
  */
 
 export const businessInfo = {
   name: "ARFU HOMEMADE FOODS",
   tagline: "Authentic Taste • Made With Love",
-  headline: "Homemade Food, Made With Love.",
-  subheadline: "Freshly prepared food for your next meal, gathering or special occasion.",
+  heroHeadline: "Homemade Goodness. Authentic Taste.",
+  heroSubheadline: "Freshly prepared favourites for your stay in Ooty.",
 
-  // Two Primary Contact Phone Numbers
+  // Dual Primary Contact Phone Numbers
   phone1: {
     display: "+91 94427 91057",
     tel: "tel:+919442791057",
@@ -29,15 +29,28 @@ export const businessInfo = {
   // Official Logo asset path
   logo: "/assets/logo.jpg",
 
-  // FSSAI Configuration: Keep empty string until registration number is officially issued.
-  fssaiNumber: "",
-
-  // Highlights
-  highlights: [
-    { title: "Fresh Ingredients", desc: "Prepared with carefully selected ingredients." },
-    { title: "Homemade Taste", desc: "Traditional homemade-style preparation." },
-    { title: "Made With Care", desc: "Prepared with attention to taste and quality." },
-    { title: "Freshly Prepared", desc: "Food prepared fresh for your order." },
+  // Truthful Benefits for "Why Choose Us"
+  benefits: [
+    {
+      title: "100% Homemade Preparation",
+      desc: "Every dish is cooked fresh with authentic recipes, pure spices, and traditional care — just like home.",
+      icon: "UtensilsCrossed",
+    },
+    {
+      title: "Authentic South Indian Flavours",
+      desc: "From fluffy steamed idlis to fragrant slow-dum biryanis and roasted gravies, experience genuine homestyle taste.",
+      icon: "Sparkles",
+    },
+    {
+      title: "Freshly Cooked to Order",
+      desc: "Food is prepared hot and fresh specifically for your order, ensuring optimal flavour, aroma, and hygiene.",
+      icon: "Flame",
+    },
+    {
+      title: "Direct WhatsApp Ordering",
+      desc: "No complicated apps, carts, or online accounts. Connect directly with our kitchen to confirm your meal in minutes.",
+      icon: "MessageCircle",
+    },
   ],
 
   // 3-Step Simple Order Guide
@@ -45,36 +58,29 @@ export const businessInfo = {
     {
       step: "01",
       title: "Browse the Menu",
-      desc: "Choose your favourite homemade dishes.",
+      desc: "Choose from our breakfast, lunch, or dinner favourites.",
     },
     {
       step: "02",
-      title: "Call or WhatsApp",
-      desc: "Send us your order directly.",
+      title: "Tap WhatsApp to Order",
+      desc: "Send your prefilled dish details directly to our kitchen.",
     },
     {
       step: "03",
-      title: "Enjoy Your Food",
-      desc: "We'll confirm your order and preparation.",
+      title: "Confirm & Enjoy",
+      desc: "We confirm preparation and availability for your order.",
     },
   ],
 };
 
 /**
- * Builds pre-filled WhatsApp ordering link for a food item
+ * Builds pre-filled WhatsApp ordering link for a specific food item
+ * Matches: "Hello ARFU HOMEMADE FOODS, I would like to enquire about [Item] ([Quantity]) priced at ₹[Price]. Please confirm availability."
  */
 export function getItemWhatsAppUrl(item, whatsappNumber = businessInfo.phone1.number) {
   const quantityInfo = item.quantity ? ` (${item.quantity})` : '';
-  const message = `Hello ARFU HOMEMADE FOODS,
-
-I would like to order:
-${item.name}${quantityInfo}
-
-Price: ₹${item.price}
-
-Please confirm availability.
-
-Thank you.`;
+  const formattedPrice = Number(item.price).toLocaleString('en-IN');
+  const message = `Hello ARFU HOMEMADE FOODS, I would like to enquire about ${item.name}${quantityInfo} priced at ₹${formattedPrice}. Please confirm availability.`;
 
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
@@ -83,11 +89,7 @@ Thank you.`;
  * General WhatsApp inquiry link
  */
 export function getGeneralWhatsAppUrl(whatsappNumber = businessInfo.phone1.number) {
-  const message = `Hello ARFU HOMEMADE FOODS,
-
-I would like to enquire and place an order.
-
-Thank you.`;
+  const message = `Hello ARFU HOMEMADE FOODS, I would like to enquire about homemade food for my stay in Ooty. Please share today's menu availability. Thank you!`;
 
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }

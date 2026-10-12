@@ -7,13 +7,12 @@ export default function MenuCard({ item, onOpenPreview }) {
   const whatsappUrl = getItemWhatsAppUrl(item);
 
   return (
-    <article className="forest-card rounded-3xl overflow-hidden flex flex-col group border border-white/10 hover:border-limeAccent/40 transition-all duration-300">
+    <article className="group bg-white dark:bg-charcoal-850 rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col border border-cocoa-800/10 dark:border-white/10 hover:border-gold/60 dark:hover:border-gold/60 shadow-card-light dark:shadow-card-dark hover:shadow-card-light-hover dark:hover:shadow-card-dark-hover transition-all duration-300">
       
-      {/* Real Food Image with Click for Detail Modal */}
+      {/* Real Food Image with Click for Preview */}
       <div 
-        className="relative h-60 sm:h-64 w-full overflow-hidden bg-forest-900 cursor-pointer"
+        className="relative aspect-[4/3] w-full overflow-hidden bg-cream-200 dark:bg-charcoal-900 cursor-pointer"
         onClick={() => onOpenPreview(item)}
-        data-cursor="VIEW"
         title="Tap to view photo"
       >
         {!imgError ? (
@@ -22,90 +21,94 @@ export default function MenuCard({ item, onOpenPreview }) {
             alt={item.alt || `${item.name} dish`}
             loading="lazy"
             onError={() => setImgError(true)}
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+            width="400"
+            height="300"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center text-cream/40 bg-forest-900">
-            <UtensilsCrossed className="w-10 h-10 mb-2 stroke-1 text-limeAccent/60" />
-            <span className="text-xs uppercase tracking-widest font-serif text-cream/60">
+          <div className="w-full h-full flex flex-col items-center justify-center text-cocoa-700/60 dark:text-cream-300/60 bg-cream-200 dark:bg-charcoal-800">
+            <UtensilsCrossed className="w-8 h-8 mb-2 stroke-1 text-gold" />
+            <span className="text-xs uppercase tracking-wider font-serif">
               ARFU Homemade Special
             </span>
           </div>
         )}
 
-        {/* Ambient Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/25 to-transparent opacity-75 group-hover:opacity-45 transition-opacity" />
+        {/* Subtle Bottom Gradient */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
 
-        {/* Top Badges: Veg/Non-Veg */}
-        <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
+        {/* Top-Left Veg / Non-Veg Badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase shadow-md backdrop-blur-md border ${
+            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase shadow-md backdrop-blur-md border ${
               item.isVeg
-                ? 'bg-forest-950/85 text-limeAccent border-limeAccent/40'
-                : 'bg-forest-950/85 text-terracotta border-terracotta/40'
+                ? 'bg-white/95 dark:bg-charcoal-950/90 text-badge-veg border-badge-veg/30'
+                : 'bg-white/95 dark:bg-charcoal-950/90 text-badge-nonveg border-badge-nonveg/30'
             }`}
           >
-            {item.isVeg ? (
-              <span className="w-2 h-2 rounded-full bg-limeAccent" aria-hidden="true" />
-            ) : (
-              <span className="w-0 h-0 border-l-[3.5px] border-l-transparent border-r-[3.5px] border-r-transparent border-b-[7px] border-b-terracotta" aria-hidden="true" />
-            )}
-            <span>{item.isVeg ? 'VEG' : 'NON-VEG'}</span>
+            <span
+              className={`w-2 h-2 rounded-full ${
+                item.isVeg ? 'bg-badge-veg' : 'bg-badge-nonveg'
+              }`}
+              aria-hidden="true"
+            />
+            <span>{item.isVeg ? 'Veg' : 'Non-Veg'}</span>
           </span>
         </div>
 
-        {/* Tap/Click Zoom Icon Hint */}
-        <div className="absolute bottom-3.5 right-3.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <span className="p-2 rounded-full bg-forest-950/80 text-limeAccent border border-white/20 shadow-sm flex items-center justify-center backdrop-blur-md">
+        {/* Top-Right Tap to Expand Icon */}
+        <div className="absolute top-3 right-3 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+          <span className="p-2 rounded-full bg-black/60 text-white shadow-sm flex items-center justify-center backdrop-blur-md hover:bg-gold hover:text-charcoal-950 transition-colors">
             <Maximize2 className="w-3.5 h-3.5" />
           </span>
         </div>
       </div>
 
       {/* Content Area */}
-      <div className="p-6 flex-1 flex flex-col justify-between">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
         <div>
-          {/* FOOD NAME (Large, high-contrast) */}
-          <h3 className="font-serif font-bold text-2xl text-cream group-hover:text-limeAccent transition-colors uppercase tracking-tight leading-snug">
+          {/* Dish Name */}
+          <h3 className="font-serif font-bold text-lg sm:text-xl text-cocoa-900 dark:text-cream-50 group-hover:text-gold-600 dark:group-hover:text-gold transition-colors leading-snug">
             {item.name}
           </h3>
 
-          {/* QUANTITY (Small uppercase) */}
+          {/* Serving Size / Quantity */}
           {item.quantity && (
-            <span className="text-[11px] uppercase tracking-widest font-semibold text-limeAccent/80 block mt-1 mb-2 font-mono">
+            <span className="text-[11px] sm:text-xs font-semibold text-cocoa-700/70 dark:text-gold/90 block mt-0.5 mb-2 font-mono uppercase tracking-wide">
               {item.quantity}
             </span>
           )}
 
           {/* Short Description */}
           {item.description && (
-            <p className="text-xs sm:text-sm text-cream/70 line-clamp-2 font-light leading-relaxed mb-6">
+            <p className="text-xs text-cocoa-800/80 dark:text-cream-300/75 line-clamp-2 leading-relaxed mb-4 font-normal">
               {item.description}
             </p>
           )}
         </div>
 
-        {/* Bottom Area: High Contrast PRICE & WHATSAPP → */}
-        <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+        {/* Bottom Bar: Price & Order Action */}
+        <div className="pt-3.5 border-t border-cocoa-800/10 dark:border-white/10 flex items-center justify-between gap-3">
           <div>
-            <span className="text-[10px] uppercase font-bold tracking-widest text-cream/40 block">
-              PRICE
+            <span className="text-[10px] uppercase font-bold tracking-wider text-cocoa-700/60 dark:text-cream-300/60 block">
+              Price
             </span>
-            <span className="font-serif text-2xl sm:text-3xl font-black text-cream">
-              ₹{item.price}
+            <span className="font-serif text-xl sm:text-2xl font-black text-cocoa-900 dark:text-cream-50">
+              ₹{Number(item.price).toLocaleString('en-IN')}
             </span>
           </div>
 
+          {/* WhatsApp Order Button */}
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            data-cursor="ORDER"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#25D366]/40 hover:border-[#25D366] active:scale-95 group/btn shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm hover:shadow-whatsapp-glow active:scale-95 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#25D366]"
             title={`Order ${item.name} on WhatsApp`}
+            aria-label={`Order ${item.name} on WhatsApp for rupees ${item.price}`}
           >
-            <MessageCircle className="w-3.5 h-3.5 text-limeAccent group-hover/btn:text-white fill-current transition-colors" />
-            <span>WHATSAPP →</span>
+            <MessageCircle className="w-4 h-4 fill-current" />
+            <span>Order</span>
           </a>
         </div>
 

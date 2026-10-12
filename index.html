@@ -3,35 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/jpeg" href="/assets/logo.jpg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>ARFU HOMEMADE FOODS | Authentic Taste • Made With Love</title>
-    <meta name="description" content="ARFU HOMEMADE FOODS — authentic homemade food in Ooty prepared with care. Fresh South Indian breakfast, lunch biryanis & meals, and dinner specials. Call or WhatsApp to order." />
-    <meta name="keywords" content="ARFU HOMEMADE FOODS, Ooty homemade food, Ooty South Indian food, homemade biryani Ooty, breakfast, lunch, dinner, authentic taste made with love" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <title>ARFU HOMEMADE FOODS | Homemade Food in Ooty</title>
+    <meta name="description" content="Freshly prepared homemade South Indian favourites for your stay in Ooty. Browse our authentic breakfast, lunch biryanis & meals, and dinner specials. Call or WhatsApp to order." />
+    <meta name="keywords" content="ARFU HOMEMADE FOODS, homemade food in Ooty, Ooty homemade food, South Indian food Ooty, homemade biryani Ooty, fresh food Ooty, breakfast, lunch, dinner, authentic taste made with love" />
     <meta name="author" content="ARFU HOMEMADE FOODS" />
     
-    <!-- Open Graph / Facebook / WhatsApp Social Preview -->
+    <!-- Open Graph / WhatsApp Social Preview -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ARFU HOMEMADE FOODS" />
-    <meta property="og:title" content="ARFU HOMEMADE FOODS | Authentic Taste • Made With Love" />
-    <meta property="og:description" content="Freshly prepared homemade South Indian breakfast, royal dum biryanis, full meals, and dinner roasts. Call or WhatsApp directly to order." />
+    <meta property="og:title" content="ARFU HOMEMADE FOODS | Homemade Food in Ooty" />
+    <meta property="og:description" content="Homemade Goodness. Authentic Taste. Freshly prepared favourites for your stay in Ooty. Browse our digital menu and WhatsApp to order directly." />
     <meta property="og:image" content="/assets/logo.jpg" />
     <meta property="og:image:alt" content="ARFU HOMEMADE FOODS Logo" />
     <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ARFU HOMEMADE FOODS | Authentic Taste • Made With Love" />
-    <meta name="twitter:description" content="Freshly prepared homemade food in Ooty. Browse our digital menu and WhatsApp to order." />
+    <meta name="twitter:title" content="ARFU HOMEMADE FOODS | Homemade Food in Ooty" />
+    <meta name="twitter:description" content="Freshly prepared favourites for your stay in Ooty. Browse menu and order directly via WhatsApp." />
     <meta name="twitter:image" content="/assets/logo.jpg" />
 
-    <meta name="theme-color" content="#060F0A" />
+    <meta name="theme-color" content="#FAF7F0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12100E" media="(prefers-color-scheme: dark)" />
+
+    <!-- Anti-Flash Theme Init Script -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('arfu-theme');
+          var isDark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Google Fonts: Editorial Serif + Modern Clean Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-forest-950 text-cream selection:bg-limeAccent selection:text-forest-950 antialiased overflow-x-hidden">
+  <body class="bg-cream-100 text-cocoa-900 dark:bg-charcoal-950 dark:text-cream-100 antialiased selection:bg-gold selection:text-cocoa-950 overflow-x-hidden transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

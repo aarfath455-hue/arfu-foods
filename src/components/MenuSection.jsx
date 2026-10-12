@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { Search, MessageCircle, Maximize2 } from 'lucide-react';
+import { Search, UtensilsCrossed, Sparkles } from 'lucide-react';
 import { allMenuItems } from '../data/menu';
 import CategoryTabs from './CategoryTabs';
 import MenuCard from './MenuCard';
-import { getItemWhatsAppUrl } from '../data/business';
 
 export default function MenuSection({ onOpenPreview }) {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -21,7 +20,8 @@ export default function MenuSection({ onOpenPreview }) {
     return allMenuItems.filter(
       (item) =>
         item.name.toLowerCase().includes(q) ||
-        (item.description && item.description.toLowerCase().includes(q))
+        (item.description && item.description.toLowerCase().includes(q)) ||
+        (item.quantity && item.quantity.toLowerCase().includes(q))
     );
   }, [searchQuery]);
 
@@ -33,20 +33,9 @@ export default function MenuSection({ onOpenPreview }) {
     return allMenuItems;
   }, [activeCategory, breakfastItems, lunchItems, dinnerItems]);
 
-  // Lead highlight dishes for editorial showcases
-  const leadDosa = allMenuItems.find((i) => i.id === 'bf-4') || breakfastItems[0];
-  const otherBreakfast = breakfastItems.filter((i) => i.id !== 'bf-4');
-
-  const leadBiryani = allMenuItems.find((i) => i.id === 'lu-1') || lunchItems[0];
-  const leadMuttonBiryani = allMenuItems.find((i) => i.id === 'lu-2') || lunchItems[1];
-  const otherLunch = lunchItems.filter((i) => i.id !== 'lu-1' && i.id !== 'lu-2');
-
-  const leadChickenFry = allMenuItems.find((i) => i.id === 'din-1') || dinnerItems[0];
-  const leadPaneer = allMenuItems.find((i) => i.id === 'din-9') || dinnerItems[1];
-  const otherDinner = dinnerItems.filter((i) => i.id !== 'din-1' && i.id !== 'din-9');
-
   return (
-    <section id="menu" className="bg-forest-950 relative pb-28">
+    <section id="menu" className="relative pb-20 sm:pb-28 transition-colors duration-200">
+      
       {/* Category Navigation Bar (Sticky) */}
       {!searchQuery && (
         <CategoryTabs
@@ -54,26 +43,33 @@ export default function MenuSection({ onOpenPreview }) {
           onSelectCategory={(catId) => {
             setActiveCategory(catId);
             const el = document.getElementById('menu');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            if (el) {
+              const yOffset = -70;
+              const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
           }}
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 pt-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10">
+        
         {/* Quick Search Bar */}
-        <div className="max-w-md mx-auto mb-12 relative">
-          <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-cream/40" />
+        <div className="max-w-md mx-auto mb-10 sm:mb-12 relative">
+          <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-cocoa-700/50 dark:text-cream-300/50" />
           <input
             type="text"
             placeholder="Search idly, biryani, chicken fry, dosa..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-12 py-3 rounded-full bg-forest-900 border border-white/15 text-sm text-cream placeholder-cream/40 focus:outline-none focus:border-limeAccent focus:ring-1 focus:ring-limeAccent transition-colors shadow-inner"
+            className="w-full pl-11 pr-12 py-3 rounded-full bg-white dark:bg-charcoal-850 border border-cocoa-800/15 dark:border-white/15 text-sm text-cocoa-900 dark:text-cream-50 placeholder-cocoa-700/50 dark:placeholder-cream-300/50 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/30 shadow-card-light dark:shadow-card-dark transition-colors min-h-[44px]"
+            aria-label="Search food menu"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-limeAccent hover:text-white"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-gold hover:text-gold-600 dark:hover:text-cream-50 p-1"
+              aria-label="Clear search"
             >
               Clear
             </button>
@@ -81,24 +77,24 @@ export default function MenuSection({ onOpenPreview }) {
         </div>
 
         {/* ============================================================ */}
-        {/* VIEW 1: SEARCH ACTIVE                                        */}
+        {/* VIEW 1: ACTIVE SEARCH                                         */}
         {/* ============================================================ */}
         {searchQuery.trim() ? (
           <div>
-            <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-4">
-              <h3 className="font-serif text-2xl text-cream font-bold">
+            <div className="mb-6 flex items-center justify-between border-b border-cocoa-800/10 dark:border-white/10 pb-4">
+              <h2 className="font-serif text-xl sm:text-2xl text-cocoa-900 dark:text-cream-50 font-bold">
                 Search Results for "{searchQuery}" ({searchResults?.length || 0})
-              </h3>
+              </h2>
               <button
                 onClick={() => setSearchQuery('')}
-                className="text-xs text-limeAccent hover:underline font-bold"
+                className="text-xs text-gold hover:underline font-bold"
               >
-                Clear Search & View All
+                Clear Search
               </button>
             </div>
 
             {searchResults && searchResults.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                 {searchResults.map((item) => (
                   <MenuCard
                     key={`search-${item.id}`}
@@ -108,45 +104,46 @@ export default function MenuSection({ onOpenPreview }) {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-forest-900 rounded-3xl border border-white/10 max-w-md mx-auto">
-                <p className="font-serif text-xl text-cream mb-2 font-bold">
+              <div className="text-center py-16 bg-white dark:bg-charcoal-850 rounded-3xl border border-cocoa-800/10 dark:border-white/10 max-w-md mx-auto shadow-sm p-6">
+                <UtensilsCrossed className="w-10 h-10 text-gold mx-auto mb-3" />
+                <p className="font-serif text-lg text-cocoa-900 dark:text-cream-50 font-bold mb-1">
                   No matching dishes found
                 </p>
-                <p className="text-xs text-cream/50 mb-5 font-light">
+                <p className="text-xs text-cocoa-700/70 dark:text-cream-300/70 mb-5">
                   Try searching for another dish or browse the full menu.
                 </p>
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="px-6 py-2.5 rounded-full bg-cream text-forest-950 font-bold text-xs uppercase tracking-wider"
+                  className="px-6 py-2.5 rounded-full bg-cocoa-900 dark:bg-gold text-cream-50 dark:text-charcoal-950 font-bold text-xs uppercase tracking-wider"
                 >
-                  Clear Search
+                  View All Dishes
                 </button>
               </div>
             )}
           </div>
         ) : activeCategory !== 'all' ? (
           /* ============================================================ */
-          /* VIEW 2: FILTERED SINGLE CATEGORY                             */
+          /* VIEW 2: SINGLE FILTERED CATEGORY                             */
           /* ============================================================ */
           <div>
-            <div className="mb-8 pb-4 border-b border-white/10 flex items-center justify-between">
+            <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex items-center justify-between">
               <div>
-                <span className="font-mono text-xs uppercase tracking-widest text-limeAccent font-bold block mb-1">
-                  CATEGORY VIEW
+                <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
+                  Menu Category
                 </span>
-                <h3 className="font-serif text-3xl sm:text-4xl font-bold text-cream uppercase">
-                  {activeCategory}
-                </h3>
+                <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
+                  {activeCategory} ({filteredCategoryItems.length})
+                </h2>
               </div>
               <button
                 onClick={() => setActiveCategory('all')}
-                className="text-xs text-limeAccent font-bold hover:underline"
+                className="text-xs text-gold hover:underline font-bold"
               >
                 View Full Menu →
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
               {filteredCategoryItems.map((item) => (
                 <MenuCard
                   key={`filtered-${item.id}`}
@@ -158,250 +155,33 @@ export default function MenuSection({ onOpenPreview }) {
           </div>
         ) : (
           /* ============================================================ */
-          /* VIEW 3: FULL EDITORIAL MAGAZINE MENU SPREAD                  */
+          /* VIEW 3: FULL ORGANISED MENU SPREAD (BREAKFAST, LUNCH, DINNER) */
           /* ============================================================ */
-          <div className="space-y-32">
+          <div className="space-y-16 sm:space-y-24">
             
-            {/* ---------------------------------------------------------- */}
-            {/* 1. BREAKFAST: Large Dosa Showcase + Asymmetric Dishes     */}
-            {/* ---------------------------------------------------------- */}
+            {/* 1. BREAKFAST SECTION */}
             <section id="breakfast" className="scroll-mt-32">
-              <div className="mb-8 pb-4 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
-                  <span className="font-mono text-xs uppercase tracking-widest text-limeAccent font-bold block mb-1">
-                    MORNING SPECIALTIES
+                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
+                    01 — Morning Specialties
                   </span>
-                  <h3 className="font-serif font-black text-4xl sm:text-5xl text-cream uppercase tracking-tight">
-                    BREAKFAST
-                  </h3>
-                  <p className="font-editorial italic text-cream/70 text-base mt-1">
-                    "Start your day with freshly steamed homestyle favourites."
+                  <h2 className="font-serif font-black text-2xl sm:text-4xl text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
+                    Breakfast
+                  </h2>
+                  <p className="text-xs sm:text-sm text-cocoa-700/80 dark:text-cream-200/80 mt-1 italic font-serif">
+                    "Start your morning with freshly steamed homestyle favourites."
                   </p>
                 </div>
-                <span className="text-xs text-cream/60 bg-white/5 px-3 py-1 rounded-full border border-white/10 self-start sm:self-auto font-mono">
+                <span className="text-xs text-cocoa-800 dark:text-cream-200 bg-cream-200/80 dark:bg-charcoal-800 px-3 py-1 rounded-full border border-cocoa-800/10 dark:border-white/10 self-start sm:self-auto font-mono">
                   {breakfastItems.length} Dishes
                 </span>
               </div>
 
-              {/* Asymmetric Breakfast Spread */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-8">
-                {/* Large Featured Dosa Showcase (Spans 6 cols) */}
-                {leadDosa && (
-                  <div className="lg:col-span-6 rounded-3xl overflow-hidden bg-forest-900 border border-white/15 shadow-2xl flex flex-col group">
-                    <div
-                      className="relative h-72 sm:h-88 w-full overflow-hidden bg-forest-950 cursor-pointer"
-                      onClick={() => onOpenPreview(leadDosa)}
-                      data-cursor="VIEW"
-                    >
-                      <img
-                        src={leadDosa.image}
-                        alt={leadDosa.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/20 to-transparent" />
-                      
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-forest-950/80 text-limeAccent border border-limeAccent/30 backdrop-blur-md">
-                          SIGNATURE CRISP
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-5 left-5 right-5 text-cream">
-                        <div className="flex items-baseline justify-between gap-4">
-                          <h4 className="font-serif text-3xl font-bold uppercase tracking-tight">
-                            {leadDosa.name}
-                          </h4>
-                          <span className="font-serif text-3xl font-black text-cream">
-                            ₹{leadDosa.price}
-                          </span>
-                        </div>
-                        {leadDosa.quantity && (
-                          <span className="text-[11px] uppercase tracking-widest text-limeAccent font-mono block mt-1">
-                            {leadDosa.quantity}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex items-center justify-between gap-4 border-t border-white/10 bg-forest-900">
-                      <p className="text-xs text-cream/70 font-light max-w-sm">
-                        {leadDosa.description}
-                      </p>
-                      <a
-                        href={getItemWhatsAppUrl(leadDosa)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-cursor="ORDER"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#25D366]/40 flex-shrink-0 active:scale-95"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-current text-limeAccent" />
-                        <span>WHATSAPP →</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {/* Idly & Vada & Poori 2-Column Grid Beside Hero */}
-                <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {otherBreakfast.slice(0, 4).map((item) => (
-                    <MenuCard
-                      key={`bf-grid-${item.id}`}
-                      item={item}
-                      onOpenPreview={onOpenPreview}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Remaining Breakfast Dishes */}
-              {otherBreakfast.length > 4 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {otherBreakfast.slice(4).map((item) => (
-                    <MenuCard
-                      key={`bf-rem-${item.id}`}
-                      item={item}
-                      onOpenPreview={onOpenPreview}
-                    />
-                  ))}
-                </div>
-              )}
-            </section>
-
-            {/* ---------------------------------------------------------- */}
-            {/* 2. LUNCH: Biryanis, Ghee Rice, Meals, Gravies             */}
-            {/* ---------------------------------------------------------- */}
-            <section id="lunch" className="scroll-mt-32">
-              <div className="mb-8 pb-4 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-                <div>
-                  <span className="font-mono text-xs uppercase tracking-widest text-limeAccent font-bold block mb-1">
-                    AFTERNOON FEAST
-                  </span>
-                  <h3 className="font-serif font-black text-4xl sm:text-5xl text-cream uppercase tracking-tight">
-                    LUNCH
-                  </h3>
-                  <p className="font-editorial italic text-cream/70 text-base mt-1">
-                    "Royal slow-cooked biryanis, homestyle full meals, and rich country gravies."
-                  </p>
-                </div>
-                <span className="text-xs text-limeAccent bg-white/5 px-3 py-1 rounded-full border border-limeAccent/30 self-start sm:self-auto font-mono">
-                  {lunchItems.length} Dishes
-                </span>
-              </div>
-
-              {/* Highlight Cards: Chicken Biryani & Mutton Biryani */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                {leadBiryani && (
-                  <div className="rounded-3xl overflow-hidden bg-forest-900 border border-white/15 shadow-2xl flex flex-col group">
-                    <div
-                      className="relative h-72 sm:h-80 w-full overflow-hidden bg-forest-950 cursor-pointer"
-                      onClick={() => onOpenPreview(leadBiryani)}
-                      data-cursor="VIEW"
-                    >
-                      <img
-                        src={leadBiryani.image}
-                        alt={leadBiryani.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/20 to-transparent" />
-                      
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-forest-950/80 text-limeAccent border border-limeAccent/30 backdrop-blur-md">
-                          SIGNATURE DUM
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-5 left-5 right-5 text-cream">
-                        <div className="flex items-baseline justify-between gap-4">
-                          <h4 className="font-serif text-3xl font-bold uppercase tracking-tight">
-                            {leadBiryani.name}
-                          </h4>
-                          <span className="font-serif text-3xl font-black text-cream">
-                            ₹{leadBiryani.price}
-                          </span>
-                        </div>
-                        <span className="text-[11px] uppercase tracking-widest text-limeAccent font-mono block mt-1">
-                          {leadBiryani.quantity}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex items-center justify-between gap-4 border-t border-white/10 bg-forest-900">
-                      <p className="text-xs text-cream/70 font-light max-w-sm line-clamp-2">
-                        {leadBiryani.description}
-                      </p>
-                      <a
-                        href={getItemWhatsAppUrl(leadBiryani)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-cursor="ORDER"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#25D366]/40 flex-shrink-0 active:scale-95"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-current text-limeAccent" />
-                        <span>WHATSAPP →</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {leadMuttonBiryani && (
-                  <div className="rounded-3xl overflow-hidden bg-forest-900 border border-white/15 shadow-2xl flex flex-col group">
-                    <div
-                      className="relative h-72 sm:h-80 w-full overflow-hidden bg-forest-950 cursor-pointer"
-                      onClick={() => onOpenPreview(leadMuttonBiryani)}
-                      data-cursor="VIEW"
-                    >
-                      <img
-                        src={leadMuttonBiryani.image}
-                        alt={leadMuttonBiryani.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/20 to-transparent" />
-                      
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-forest-950/80 text-terracotta border border-terracotta/30 backdrop-blur-md">
-                          ROYAL SLOW COOK
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-5 left-5 right-5 text-cream">
-                        <div className="flex items-baseline justify-between gap-4">
-                          <h4 className="font-serif text-3xl font-bold uppercase tracking-tight">
-                            {leadMuttonBiryani.name}
-                          </h4>
-                          <span className="font-serif text-3xl font-black text-cream">
-                            ₹{leadMuttonBiryani.price}
-                          </span>
-                        </div>
-                        <span className="text-[11px] uppercase tracking-widest text-limeAccent font-mono block mt-1">
-                          {leadMuttonBiryani.quantity}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex items-center justify-between gap-4 border-t border-white/10 bg-forest-900">
-                      <p className="text-xs text-cream/70 font-light max-w-sm line-clamp-2">
-                        {leadMuttonBiryani.description}
-                      </p>
-                      <a
-                        href={getItemWhatsAppUrl(leadMuttonBiryani)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-cursor="ORDER"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#25D366]/40 flex-shrink-0 active:scale-95"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-current text-limeAccent" />
-                        <span>WHATSAPP →</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Other Lunch Dishes Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {otherLunch.map((item) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                {breakfastItems.map((item) => (
                   <MenuCard
-                    key={`lu-grid-${item.id}`}
+                    key={`bf-${item.id}`}
                     item={item}
                     onOpenPreview={onOpenPreview}
                   />
@@ -409,141 +189,59 @@ export default function MenuSection({ onOpenPreview }) {
               </div>
             </section>
 
-            {/* ---------------------------------------------------------- */}
-            {/* 3. DINNER: Chicken/Mutton/Fish Fries, Gravies, Naans      */}
-            {/* ---------------------------------------------------------- */}
-            <section id="dinner" className="scroll-mt-32">
-              <div className="mb-8 pb-4 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            {/* 2. LUNCH SECTION */}
+            <section id="lunch" className="scroll-mt-32">
+              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                 <div>
-                  <span className="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-1">
-                    EVENING DELIGHTS
+                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
+                    02 — Afternoon Feast
                   </span>
-                  <h3 className="font-serif font-black text-4xl sm:text-5xl text-cream uppercase tracking-tight">
-                    DINNER
-                  </h3>
-                  <p className="font-editorial italic text-cream/70 text-base mt-1">
-                    "Sizzling pan-roasts, rich butter gravies, fresh naans, and homestyle specials."
+                  <h2 className="font-serif font-black text-2xl sm:text-4xl text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
+                    Lunch
+                  </h2>
+                  <p className="text-xs sm:text-sm text-cocoa-700/80 dark:text-cream-200/80 mt-1 italic font-serif">
+                    "Royal slow-dum biryanis, wholesome meals, and rich simmering gravies."
                   </p>
                 </div>
-                <span className="text-xs text-terracotta bg-white/5 px-3 py-1 rounded-full border border-terracotta/30 self-start sm:self-auto font-mono">
+                <span className="text-xs text-cocoa-800 dark:text-cream-200 bg-cream-200/80 dark:bg-charcoal-800 px-3 py-1 rounded-full border border-cocoa-800/10 dark:border-white/10 self-start sm:self-auto font-mono">
+                  {lunchItems.length} Dishes
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                {lunchItems.map((item) => (
+                  <MenuCard
+                    key={`lu-${item.id}`}
+                    item={item}
+                    onOpenPreview={onOpenPreview}
+                  />
+                ))}
+              </div>
+            </section>
+
+            {/* 3. DINNER SECTION */}
+            <section id="dinner" className="scroll-mt-32">
+              <div className="mb-6 sm:mb-8 pb-4 border-b border-cocoa-800/10 dark:border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-gold-600 dark:text-gold font-bold block mb-1">
+                    03 — Evening Delights
+                  </span>
+                  <h2 className="font-serif font-black text-2xl sm:text-4xl text-cocoa-900 dark:text-cream-50 uppercase tracking-tight">
+                    Dinner
+                  </h2>
+                  <p className="text-xs sm:text-sm text-cocoa-700/80 dark:text-cream-200/80 mt-1 italic font-serif">
+                    "Sizzling pan roasts, hot wok fried rice, naans, and homestyle specials."
+                  </p>
+                </div>
+                <span className="text-xs text-cocoa-800 dark:text-cream-200 bg-cream-200/80 dark:bg-charcoal-800 px-3 py-1 rounded-full border border-cocoa-800/10 dark:border-white/10 self-start sm:self-auto font-mono">
                   {dinnerItems.length} Dishes
                 </span>
               </div>
 
-              {/* Highlight Cards: Chicken Fry & Paneer Butter Masala */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                {leadChickenFry && (
-                  <div className="rounded-3xl overflow-hidden bg-forest-900 border border-white/15 shadow-2xl flex flex-col group">
-                    <div
-                      className="relative h-72 sm:h-80 w-full overflow-hidden bg-forest-950 cursor-pointer"
-                      onClick={() => onOpenPreview(leadChickenFry)}
-                      data-cursor="VIEW"
-                    >
-                      <img
-                        src={leadChickenFry.image}
-                        alt={leadChickenFry.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/20 to-transparent" />
-                      
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-forest-950/80 text-limeAccent border border-limeAccent/30 backdrop-blur-md">
-                          KITCHEN SPECIAL
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-5 left-5 right-5 text-cream">
-                        <div className="flex items-baseline justify-between gap-4">
-                          <h4 className="font-serif text-3xl font-bold uppercase tracking-tight">
-                            {leadChickenFry.name}
-                          </h4>
-                          <span className="font-serif text-3xl font-black text-cream">
-                            ₹{leadChickenFry.price}
-                          </span>
-                        </div>
-                        <span className="text-[11px] uppercase tracking-widest text-limeAccent font-mono block mt-1">
-                          {leadChickenFry.quantity}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex items-center justify-between gap-4 border-t border-white/10 bg-forest-900">
-                      <p className="text-xs text-cream/70 font-light max-w-sm line-clamp-2">
-                        {leadChickenFry.description}
-                      </p>
-                      <a
-                        href={getItemWhatsAppUrl(leadChickenFry)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-cursor="ORDER"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#25D366]/40 flex-shrink-0 active:scale-95"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-current text-limeAccent" />
-                        <span>WHATSAPP →</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                {leadPaneer && (
-                  <div className="rounded-3xl overflow-hidden bg-forest-900 border border-white/15 shadow-2xl flex flex-col group">
-                    <div
-                      className="relative h-72 sm:h-80 w-full overflow-hidden bg-forest-950 cursor-pointer"
-                      onClick={() => onOpenPreview(leadPaneer)}
-                      data-cursor="VIEW"
-                    >
-                      <img
-                        src={leadPaneer.image}
-                        alt={leadPaneer.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/20 to-transparent" />
-                      
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-forest-950/80 text-limeAccent border border-limeAccent/30 backdrop-blur-md">
-                          PURE VEGETARIAN
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-5 left-5 right-5 text-cream">
-                        <div className="flex items-baseline justify-between gap-4">
-                          <h4 className="font-serif text-3xl font-bold uppercase tracking-tight">
-                            {leadPaneer.name}
-                          </h4>
-                          <span className="font-serif text-3xl font-black text-cream">
-                            ₹{leadPaneer.price}
-                          </span>
-                        </div>
-                        <span className="text-[11px] uppercase tracking-widest text-limeAccent font-mono block mt-1">
-                          {leadPaneer.quantity}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6 flex items-center justify-between gap-4 border-t border-white/10 bg-forest-900">
-                      <p className="text-xs text-cream/70 font-light max-w-sm line-clamp-2">
-                        {leadPaneer.description}
-                      </p>
-                      <a
-                        href={getItemWhatsAppUrl(leadPaneer)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-cursor="ORDER"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366]/20 hover:bg-[#25D366] text-cream hover:text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#25D366]/40 flex-shrink-0 active:scale-95"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-current text-limeAccent" />
-                        <span>WHATSAPP →</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Other Dinner Dishes Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {otherDinner.map((item) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                {dinnerItems.map((item) => (
                   <MenuCard
-                    key={`din-grid-${item.id}`}
+                    key={`din-${item.id}`}
                     item={item}
                     onOpenPreview={onOpenPreview}
                   />
