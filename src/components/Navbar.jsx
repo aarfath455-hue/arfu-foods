@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu as MenuIcon, Phone } from 'lucide-react';
+import { Menu as MenuIcon, Phone, MessageCircle } from 'lucide-react';
 import { businessInfo } from '../data/business';
 
 export default function Navbar({ onOpenNavOverlay, onOpenContact }) {
